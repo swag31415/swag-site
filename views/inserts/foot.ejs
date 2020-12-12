@@ -1,8 +1,8 @@
 </main>
-<footer class="page-footer">
+<footer class="page-footer green darken-4">
   <div class="row container">
-    <a class="grey-text text-lighten-4" href="https://choosealicense.com/licenses/mit/">License: MIT</a>
-    <a class="grey-text text-lighten-4 right" href="https://github.com/swag31415">My Github</a>
+    <a class="white-text" href="https://choosealicense.com/licenses/mit/">License: MIT</a>
+    <a class="white-text right" href="https://github.com/swag31415">My Github</a>
   </div>
 </footer>
 <!-- Jquery Slim -->
@@ -15,6 +15,7 @@
 <script>
   // Initialize the menu
   $("#nav").children().clone().appendTo("#hamborger")
+    .children("a").addClass("white-text")
   $(document).ready(() => $('.sidenav').sidenav());
 </script>
 </body>
