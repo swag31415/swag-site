@@ -2,12 +2,12 @@
   <div class="nav-wrapper">
     <a href="/" class="brand-logo">SwagSite</a>
     <a href="#" data-target="hamborger" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-    <ul class="right hide-on-med-and-down">
-      <li><a href="#">Example</a></li>
+    <ul id="nav" class="right hide-on-med-and-down">
+      <% nav_pages.forEach(page => { %>
+      <li><a href="<%- page.link %>"><%- page.name %></a></li>
+      <% }) %>
     </ul>
   </div>
 </nav>
 
-<ul class="sidenav" id="hamborger">
-  <li><a href="#">Example</a></li>
-</ul>
+<ul id="hamborger" class="sidenav"></ul>

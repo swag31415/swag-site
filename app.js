@@ -4,7 +4,9 @@ const app = express()
 const port = process.env.PORT || 3000
 
 app.get("/", (req, res) => {
-  res.render("index")
+  res.render("index", {
+    nav_pages: [{name: "Example", link: "https://google.com"}]
+  })
 })
 
 app.listen(port, () => {
