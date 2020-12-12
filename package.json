@@ -1,0 +1,16 @@
+{
+  "name": "swag_site",
+  "version": "1.0.0",
+  "description": "A place for me to put a lot of my (hopefully) cool stuff",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "swag31415 <kidswagatam18@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "^3.1.5",
+    "express": "^4.17.1"
+  }
+}
