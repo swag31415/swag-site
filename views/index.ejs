@@ -1,4 +1,25 @@
 <%- include("inserts/head.ejs") %>
 <h1>swag_site</h1>
 <p>A place for me to put a lot of my (hopefully) cool stuff</p>
+<div class="row">
+  <% cards.forEach(card => { %>
+  <div class="col s12 m6 l4">
+    <div class="card blue-grey darken-4">
+      <div class="card-image">
+        <a href="<%- card.page_link %>">
+          <img src="<%- card.image_link %>">
+        </a>
+      </div>
+      <div class="card-content white-text">
+        <span class="card-title"><%- card.title %></span>
+        <p><%- card.desc %></p>
+      </div>
+      <div class="card-action">
+        <a href="<%- card.page_link %>">See it</a>
+        <a class="right" href="<%- card.github_link %>">Github</a>
+      </div>
+    </div>
+  </div>
+  <% }) %>
+</div>
 <%- include("inserts/foot.ejs") %>
