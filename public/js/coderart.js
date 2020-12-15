@@ -14,8 +14,8 @@ function update_image() {
   let color = (r, g, b, a = 255) => [r, g, b, a]
 
   for (let i = 0; i < n_runs; i++) {
-    for (let x = 0; x < width; x++) {
-      for (let y = 0; y < height; y++) {
+    for (let y = 0; y < width; y++) {
+      for (let x = 0; x < height; x++) {
         idx = calc(x, y)
         pix = func(x, y, i, width, height, img.slice(idx, idx + 4), get, color)
         img[idx + 0] = pix[0]
