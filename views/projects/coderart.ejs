@@ -1,0 +1,25 @@
+<% const plugins = ["bitmap", "codemirror"] %>
+<%- include("../inserts/head.ejs", {plugins:plugins}) %>
+<h1>Coder Art</h1>
+<div class="row">
+  <div class="col s12 m6 l4">
+    <div class="card">
+      <div id="artbox" class="card-image"></div>
+    </div>
+  </div>
+  <div class="input-field col s4 m2">
+    <input id="width" type="text" value="500">
+    <label for="width">width</label>
+  </div>
+  <div class="input-field col s4 m2">
+    <input id="height" type="text" value="500">
+    <label for="height">height</label>
+  </div>
+  <div class="input-field col s4 m2">
+    <input id="n_runs" type="text" value="1">
+    <label for="n_runs">number of runs</label>
+  </div>
+  <div id="editor" class="col s12 m6" style="position: relative;">
+  </div>
+</div>
+<%- include("../inserts/foot.ejs", {plugins:plugins, scriptfile:"coderart.js"}) %>

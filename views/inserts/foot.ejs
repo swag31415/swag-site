@@ -12,6 +12,24 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"
   integrity="sha512-NiWqa2rceHnN3Z5j6mSAvbwwg3tiwVNxiAQaaSMSXnRRDh5C2mk/+sKQRw8qjV1vN4nf8iK2a0b048PnHbyx+Q=="
   crossorigin="anonymous"></script>
+
+<% if (typeof plugins != "undefined" && plugins) { %>
+<% if (plugins.includes("codemirror")) { %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/codemirror.min.js"
+  integrity="sha512-zuvaVNiXwWY7U7HEdXsoTislTEElpKLELFoyQw0Bg7zfGhC4vG8eAhCxIQAvHmprW7dFhTq5zshUko4K3B4mSA=="
+  crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/mode/javascript/javascript.min.js"
+  integrity="sha512-EKqHN1wvffwb5Hx+y5JeXPGNDKKxxW1Es4hexkgSf+QkQwEDNs6bp4KKCRNVLUbRPGkrDQ7yEVwvDg1tq7n1fA=="
+  crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/addon/hint/javascript-hint.min.js"
+  integrity="sha512-2zi+0HSB5MXoy+BenDX/EKjqN6eUnsG2Lh9cpx+Ckua3Yi2XupO8ife9VELSg8iR7AT98yHQNyyaAL4ImVHcoQ=="
+  crossorigin="anonymous"></script>
+<% }} %>
+
+<% if (typeof scriptfile != "undefined" && scriptfile) { %>
+<script src="js/<%- scriptfile %>"></script>
+<% } %>
+
 <script>
   // Initialize the menu
   $("#nav").children().clone().appendTo("#hamborger")
