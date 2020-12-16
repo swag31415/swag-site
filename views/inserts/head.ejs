@@ -6,7 +6,6 @@
   <title>SwagSite</title>
   <!-- Materialize Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/materialize-social@1.0.3/materialize-social.min.css">
   <!-- Materialize CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
     integrity="sha512-UJfAaOlIRtdR+0P6C3KUoTDAxVTuy3lnSXLyLKlHYJlcSU8Juge/mjeaxDNMlw9LgeIotgz5FP8eUQPhX1q10A=="
@@ -23,6 +22,16 @@
       flex: 1 0 auto;
     }
   </style>
+  <% if (typeof plugins != "undefined" && plugins) { %>
+  <% if (plugins.includes("codemirror")) { %>
+  <!-- Codemirror CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/codemirror.min.css"
+    integrity="sha512-xIf9AdJauwKIVtrVRZ0i4nHP61Ogx9fSRAkCLecmE2dL/U8ioWpDvFCAy4dcfecN72HHB9+7FfQj3aiO68aaaw=="
+    crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/theme/seti.min.css"
+    integrity="sha512-A7KLVdYbXryV98af9mTrVoUPuUuq94hkMjPgzHnrfi6QZbq9ylrgbRKp31/DQ8qareLzA3e56/VmIrrQlaDAqw=="
+    crossorigin="anonymous" />
+  <% }} %>
 </head>
 
 <body>
