@@ -52,18 +52,15 @@ var codemirror = CodeMirror(document.getElementById("editor"), {
   mode: "text/javascript",
   tabSize: 2,
   theme: "seti",
-  value: `br = 10
-  th = 1
-  if ((x >= y && x % br < th) || (y > x && y % br < th)) {
-    return rgb((x/w)*255,
-                 (y/h)*255,
-                 (2-(x/w)-(y/h))*255
-                )
-  } else {
-    return rgb((y/h)*255,
-                 (2-(x/w)-(y/h))*255,
-                 (x/w)*255
-                )
+  value: `white = rgb(255, 255, 255)
+  xor = (a, b) => a ? !b : b
+  if (!i && ((!x && !y) || xor(eq(top, white), eq(left, white))))
+    return white
+  else if (!i)
+    return rgb(0, 0, 0)
+  else {
+    [x, y] = [(x/w)*255, (y/h)*255]
+    return eq(c, white) ? rgb(y, 510-x-y, x) : cmy(y, 510-x-y, x)
   }`
 })
 
