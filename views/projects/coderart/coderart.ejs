@@ -8,16 +8,19 @@
     </div>
   </div>
   <div class="input-field col s4 m2">
-    <input id="width" type="text" value="500">
+    <input id="width" class="validate" type="number" value="500" min="1" required>
     <label for="width">width</label>
+    <span class="helper-text" data-error="Please enter a positive integer"></span>
   </div>
   <div class="input-field col s4 m2">
-    <input id="height" type="text" value="500">
+    <input id="height" class="validate" type="number" value="500" min="1" required>
     <label for="height">height</label>
+    <span class="helper-text" data-error="Please enter a positive integer"></span>
   </div>
   <div class="input-field col s4 m2">
-    <input id="n_runs" type="text" value="1">
+    <input id="n_runs" class="validate" type="number" value="1" min="1" required>
     <label for="n_runs">number of runs</label>
+    <span class="helper-text" data-error="Please enter a positive integer"></span>
   </div>
   <div id="editor" class="col s12 m6" style="position: relative;">
   </div>
