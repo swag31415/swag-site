@@ -1,23 +1,35 @@
+const eq = (a, b) => // Because js sucks
+  a.length === b.length &&
+  a.every((v, i) => v === b[i]);
+
 function update_image() {
   width = $("#width").val()
   height = $("#height").val()
   n_runs = $("#n_runs").val()
-  func = eval(`(x, y, i, w, h, curr, get, color) => {${codemirror.getValue()}}`)
+  func = eval(`(x, y, i, w, h, c, top, bottom, left, right, get, rgb, cmy) => {${codemirror.getValue()}}`)
 
   var img = new Uint8ClampedArray(4 * width * height)
 
-  let calc = (x, y) => 4 * (y * width + x)
-  let get = (x, y) => {
-    idx = calc(x, y)
-    return img.slice(idx, idx + 4)
+  let calc = (x, y) => {
+    return 4 * (y * width + x)
   }
-  let color = (r, g, b, a = 255) => [r, g, b, a]
+  let get = (x, y) => {
+    if (x < 0 || x >= width || y < 0 || y >= height)
+      return [0, 0, 0, 0]
+    idx = calc(x, y)
+    return [img[idx], img[idx + 1], img[idx + 2], img[idx + 3]]
+  }
+  let rgb = (r, g, b, a = 255) => [r, g, b, a]
+  let cmy = (c, m, y, k = 0) => [255 - c, 255 - m, 255 - y, 255 - k]
 
   for (let i = 0; i < n_runs; i++) {
-    for (let x = 0; x < width; x++) {
-      for (let y = 0; y < height; y++) {
+    for (let y = 0; y < width; y++) {
+      for (let x = 0; x < height; x++) {
         idx = calc(x, y)
-        pix = func(x, y, i, width, height, img.slice(idx, idx + 4), get, color)
+        pix = func(x, y, i, width, height, get(x, y),
+          get(x, y - 1), get(x, y + 1), get(x - 1, y), get(x + 1, y),
+          get, rgb, cmy)
+        get(x, y) // idk why this is needed but it works. TODO figure it out
         img[idx + 0] = pix[0]
         img[idx + 1] = pix[1]
         img[idx + 2] = pix[2]
@@ -43,12 +55,12 @@ var codemirror = CodeMirror(document.getElementById("editor"), {
   value: `br = 10
   th = 1
   if ((x >= y && x % br < th) || (y > x && y % br < th)) {
-    return color((x/w)*255,
+    return rgb((x/w)*255,
                  (y/h)*255,
                  (2-(x/w)-(y/h))*255
                 )
   } else {
-    return color((y/h)*255,
+    return rgb((y/h)*255,
                  (2-(x/w)-(y/h))*255,
                  (x/w)*255
                 )
