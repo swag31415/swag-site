@@ -4,7 +4,7 @@ const app = express()
   .use(express.static('public'))
 const port = process.env.PORT || 3000
 
-const nav_pages = [{name: "Coder Art", link: "coderart"}]
+const nav_pages = [{name: "Home", link: "/"}]
 
 app.get("/", (req, res) => {
   res.render("index", {
@@ -15,12 +15,24 @@ app.get("/", (req, res) => {
       page_link: "coderart",
       github_link: "https://github.com/swag31415/swag-site/blob/main/views/projects/coderart",
       image_link: "/media/coderart.png"
+    }, {
+      title: "Jugs",
+      desc: "A Javascript port of a short program I made to solve Jug Problems",
+      page_link: "jugs",
+      github_link: "https://github.com/swag31415/Jugs",
+      image_link: "/media/jug.png"
     }]
   })
 })
 
 app.get("/coderart", (req, res) => {
   res.render("projects/coderart/coderart", {
+    nav_pages: nav_pages
+  })
+})
+
+app.get("/jugs", (req, res) => {
+  res.render("projects/jugs/jugs", {
     nav_pages: nav_pages
   })
 })
