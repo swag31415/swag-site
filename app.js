@@ -27,6 +27,12 @@ app.get("/", (req, res) => {
       page_link: "https://swag31415.github.io/Txty/",
       github_link: "https://github.com/swag31415/Txty",
       image_link: "/media/txty.png"
+    }, {
+      title: "Normal",
+      desc: "A thing I made while learning about normal numbers. It uses a genetic algorithm to generate arbitrarily large numbers with as many numbers below a limit as possible in its digits",
+      page_link: "https://colab.research.google.com/drive/1VZw58jOARVv5itOrgM3bF7mPh1Q3dJjt?usp=sharing",
+      github_link: "https://github.com/swag31415/Normal",
+      image_link: "/media/normal.png"
     }]
   })
 })
