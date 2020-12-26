@@ -5,6 +5,13 @@ const app = express()
 const port = process.env.PORT || 3000
 
 const nav_pages = [{name: "Home", link: "/"}]
+const basic_pages = [{
+  url: "/coderart",
+  view: "projects/coderart/coderart"
+}, {
+  url: "/jugs",
+  view: "projects/jugs"
+}]
 
 app.get("/", (req, res) => {
   res.render("index", {
@@ -37,17 +44,9 @@ app.get("/", (req, res) => {
   })
 })
 
-app.get("/coderart", (req, res) => {
-  res.render("projects/coderart/coderart", {
-    nav_pages: nav_pages
-  })
-})
-
-app.get("/jugs", (req, res) => {
-  res.render("projects/jugs/jugs", {
-    nav_pages: nav_pages
-  })
-})
+basic_pages.forEach((page) => app.get(page.url, (req, res) => {
+  res.render(page.view, {nav_pages: nav_pages})
+}))
 
 app.listen(port, () => {
   console.log(`swag_site is up and running at http://localhost:${port}`)
