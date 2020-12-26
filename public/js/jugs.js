@@ -42,6 +42,18 @@ function verify_inputs() {
   return $(".jug_size,#target").filter((i, v) => !v.value).addClass("invalid").length == 0
 }
 
+// Calculates the greatest common divisor (gcd) of numbers a and b recursively
+function gcd(a, b) {
+  return !b ? a : gcd(b, a % b)
+}
+
+// Returns if it is possible to solve a jug problem with given jugs and target
+function is_possible(target, jug_sizes) {
+  let jugs_gcd = jug_sizes.reduce(gcd) // Get the gcd of the whole array
+  return target % jugs_gcd == 0 // If it divides the target we can solve it!
+}
+
+// Returns the shortest solution to a jug problem with given jugs and target
 function jug_alg(target, jug_sizes) {
   jug_sizes = [...new Set(jug_sizes)] // Remove Duplicates
   jug_sizes = jug_sizes.flatMap(j => [j, -j]) // Add negatives
@@ -60,25 +72,31 @@ function jug_alg(target, jug_sizes) {
   }
 }
 
-function to_word(num, color) {
+// Turns the given number into a word if its small enough and returns a "randomly" colored paragraph tag for it
+function to_word(num) {
   const nums = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve"]
-  return `<span class="${color}-text">${num in nums ? nums[num] : num}</span>`
+  const colors = ["red", "pink", "purple", "indigo", "blue", "cyan", "teal", "green", "lime", "yellow", "amber", "orange"]
+  return `<span class="${colors[num % colors.length]}-text"><strong>${num in nums ? nums[num] : num}</strong></span>`
 }
 
 $("#run_jugs").click(() => {
-  if (verify_inputs()) {
-    let jug_sizes = $(".jug_size").map((i, v) => parseInt(v.value)).toArray()
-    let target = $("#target").val()
-    let results = jug_alg(target, jug_sizes).reduce((a, v) => ({ ...a, [v]: (a[v] || 0) + 1 }), {})
-    console.log(results)
-    let steps = Object.entries(results).map((e, i, a) => {
-      let [v, n] = e
-      let av = Math.abs(v)
-      return `<p>${i + 1}. ${v > 0 ? "Add" : "Remove"} ${to_word(av, "cyan")} cup${av > 1 ? "s" : ""} using Jug ${to_word(jug_sizes.indexOf(av) + 1, "teal")} ${n > 1 ? `${to_word(n, "orange")} times for a total of ${to_word(n * av, "blue")} cups` : ""}</p>`
-    })
-    $("#results").html(steps)
-    $("#results_modal").modal("open")
+  if (verify_inputs()) { // Verify the inputs are true
+    let jug_sizes = $(".jug_size").map((i, v) => parseInt(v.value)).toArray() // Get all the jug sizes as an array
+    let target = $("#target").val() // Get the target
+    var steps = "<p>Unfortunately, this jug problem is <span class='red-text'><strong>impossible</strong></span></p>" // Message if its impossible
+    if (is_possible(target, jug_sizes)) { // Check if the jug problem is possible
+      let results = jug_alg(target, jug_sizes)                  // Solve the jug problem
+        .reduce((a, v) => ({ ...a, [v]: (a[v] || 0) + 1 }), {}) // And group the steps by type (do this *x* times, do this *y* times, etc..)
+      steps = Object.entries(results).map((e, i, a) => { // Turn the results into an array of paragraph tags
+        let [v, n] = e
+        let av = Math.abs(v)
+        return `<p>${i + 1}. ${v > 0 ? "Add" : "Remove"} ${to_word(av)} cup${av > 1 ? "s" : ""} using Jug ${to_word(jug_sizes.indexOf(av) + 1)} ${n > 1 ? `${to_word(n)} times for a total of ${to_word(n * av)} cups` : ""}</p>`
+      })
+    }
+    $("#results").html(steps) // Add the steps to the modal
+    $("#results_modal").modal("open") // Show the modal
   }
 })
 
-$(document).ready(() => $(".modal").modal())
+// Sets up the Materialize modal for showing results
+$(document).ready(() => $("#results_modal").modal())
