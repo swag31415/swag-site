@@ -11,6 +11,9 @@ const basic_pages = [{
 }, {
   url: "/jugs",
   view: "projects/jugs"
+}, {
+  url: "/the_game",
+  view: "projects/the_game"
 }]
 
 app.get("/", (req, res) => {
@@ -29,17 +32,23 @@ app.get("/", (req, res) => {
       github_link: "https://github.com/swag31415/Jugs",
       image_link: "/media/jug.png"
     }, {
-      title: "Txty",
-      desc: "A no-frills Quill-based in-browser text editor with hotkeys for everything! I find it suprisingly useful to dump information and gather my thoughts",
-      page_link: "https://swag31415.github.io/Txty/",
-      github_link: "https://github.com/swag31415/Txty",
-      image_link: "/media/txty.png"
-    }, {
       title: "Normal",
       desc: "A thing I made while learning about normal numbers. It uses a genetic algorithm to generate arbitrarily large numbers with as many numbers below a limit as possible in its digits",
       page_link: "https://colab.research.google.com/drive/1VZw58jOARVv5itOrgM3bF7mPh1Q3dJjt?usp=sharing",
       github_link: "https://github.com/swag31415/Normal",
       image_link: "/media/normal.png"
+    }, {
+      title: "The Game",
+      desc: "A simulation of how The Game spreads",
+      page_link: "the_game",
+      github_link: "https://github.com/swag31415/The_Game",
+      image_link: "/media/the_game.png"
+    }, {
+      title: "Txty",
+      desc: "A no-frills Quill-based in-browser text editor with hotkeys for everything! I find it suprisingly useful to dump information and gather my thoughts",
+      page_link: "https://swag31415.github.io/Txty/",
+      github_link: "https://github.com/swag31415/Txty",
+      image_link: "/media/txty.png"
     }]
   })
 })
