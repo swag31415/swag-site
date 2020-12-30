@@ -1,0 +1,9 @@
+<%- include("../inserts/head.ejs") %>
+<form method="POST">
+  <% data.forEach(row => {%>
+  <input type="submit" class="btn" name="thing" value="<%- row %>">
+  <% })%>
+  <input type="text" name="thing">
+  <input type="submit" class="btn" value="submit">
+</form>
+<%- include("../inserts/foot.ejs") %>

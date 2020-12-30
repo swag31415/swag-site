@@ -1,10 +1,14 @@
 const express = require("express")
+const body_parser = require("body-parser")
+const db = require("./src/db")
+
 const app = express()
   .set("view engine", "ejs")
   .use(express.static('public'))
+  .use(body_parser.urlencoded({ extended: true }))
 const port = process.env.PORT || 3000
 
-const nav_pages = [{name: "Home", link: "/"}]
+const nav_pages = [{name: "Home", link: "/"}, {name: "Tracker", link: "/tracker"}]
 const basic_pages = [{
   url: "/coderart",
   view: "projects/coderart/coderart"
@@ -65,6 +69,17 @@ app.get("/", (req, res) => {
 basic_pages.forEach((page) => app.get(page.url, (req, res) => {
   res.render(page.view, {nav_pages: nav_pages})
 }))
+
+app.get("/tracker", (req, res) => {
+  db.get_tracks().then(tracks =>
+    res.render("projects/tracker", {nav_pages: nav_pages, data: tracks.rows.map(r => r.track)})
+  )
+})
+
+app.post("/tracker", (req, res) => {
+  db.track(req.body.thing)
+  res.redirect("/")
+})
 
 app.listen(port, () => {
   console.log(`swag_site is up and running at http://localhost:${port}`)
