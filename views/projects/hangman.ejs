@@ -1,0 +1,223 @@
+<%- include("../inserts/head.ejs") %>
+
+<% words = ["abruptly", "absurd", "abyss", "affix", "askew", "avenue", "awkward", "axiom", "azure", "bagpipes",
+  "bandwagon", "banjo", "bayou", "beekeeper", "bikini", "blitz", "blizzard", "boggle", "bookworm", "boxcar",
+  "boxful", "buckaroo", "buffalo", "buffoon", "buxom", "buzzard", "buzzing", "buzzwords", "caliph",
+  "cobweb", "cockiness", "croquet", "crypt", "curacao", "cycle", "daiquiri", "dirndl", "disavow",
+  "dizzying", "duplex", "dwarves", "embezzle", "equip", "espionage", "euouae", "exodus", "faking",
+  "fishhook", "fixable", "fjord", "flapjack", "flopping", "fluffiness", "flyby", "foxglove", "frazzled",
+  "frizzled", "fuchsia", "funny", "gabby", "galaxy", "galvanize", "gazebo", "giaour", "gizmo", "glowworm",
+  "glyph", "gnarly", "gnostic", "gossip", "grogginess", "haiku", "haphazard", "hyphen", "iatrogenic",
+  "icebox", "injury", "ivory", "ivy", "jackpot", "jaundice", "jawbreaker", "jaywalk", "jazziest", "jazzy",
+  "jelly", "jigsaw", "jinx", "jiujitsu", "jockey", "jogging", "joking", "jovial", "joyful", "juicy",
+  "jukebox", "jumbo", "kayak", "kazoo", "keyhole", "khaki", "kilobyte", "kiosk", "kitsch", "kiwifruit",
+  "klutz", "knapsack", "larynx", "lengths", "lucky", "luxury", "lymph", "marquis", "matrix", "megahertz",
+  "microwave", "mnemonic", "mystify", "naphtha", "nightclub", "nowadays", "numbskull", "nymph", "onyx",
+  "ovary", "oxidize", "oxygen", "pajama", "peekaboo", "phlegm", "pixel", "pizazz", "pneumonia", "polka",
+  "pshaw", "psyche", "puppy", "puzzling", "quartz", "queue", "quips", "quixotic", "quiz", "quizzes",
+  "quorum", "razzmatazz", "rhubarb", "rhythm", "rickshaw", "schnapps", "scratch", "shiv", "snazzy",
+  "sphinx", "spritz", "squawk", "staff", "strength", "strengths", "stretch", "stronghold", "stymied",
+  "subway", "swivel", "syndrome", "thriftless", "thumbscrew", "topaz", "transcript", "transgress",
+  "transplant", "triphthong", "twelfth", "twelfths", "unknown", "unworthy", "unzip", "uptown", "vaporize",
+  "vixen", "vodka", "voodoo", "vortex", "voyeurism", "walkway", "waltz", "wave", "wavy", "waxy",
+  "wellspring", "wheezy", "whiskey", "whizzing", "whomever", "wimpy", "witchcraft", "wizard", "woozy",
+  "wristwatch", "wyvern", "xylophone", "yachtsman", "yippee", "yoked", "youthful", "yummy", "zephyr",
+  "zigzag", "zigzagging", "zilch", "zipper", "zodiac"]%>
+
+<h1>hangman</h1>
+<div id="start_dialog" class="row">
+  <div class="input-field col s12 m6">
+    <input id="word" class="validate" type="text" pattern="[A-Za-z ]+">
+    <label for="word">Word(s)</label>
+    <span class="helper-text" data-error="Only letters and spaces allowed"></span>
+  </div>
+  <div class="input-field col">
+    <button id="start" class="btn green">Start</button>
+  </div>
+  <div class="input-field col">
+    <button id="rand_start" class="btn" value="<%- words[Math.floor(Math.random() * words.length)]%>" >Random Word</button>
+  </div>
+</div>
+
+<div id="game" style="display: none;">
+  <div id="stages">
+<pre>
+ ___________.._______
+| ._________)))______|
+| | / /     |_|
+| |/ /      |_|
+| | /       |_|
+| |/        |_|
+| |         |_|
+| |        // \\
+| |       ||   ||
+| |        \\_//
+| |
+| |
+| |
+| |
+| |
+| |
+| |
+| |
+""""""""""|__  _____|"""|
+|"|"""""""\ \       '"|"|
+| |        \ \        | |
+: :         \ \       : :
+. .          `'       . .</pre>
+<pre>
+ ___________.._______
+| .__________))______|
+| | / /      ||
+| |/ /       ||
+| | /        ||.-''.
+| |/         |/  _  \
+| |          ||  `/,|
+| |          (\\`_.'
+| |           `--'
+| |
+| |
+| |
+| |
+| |
+| |
+| |
+| |
+| |
+""""""""""|__  _____|"""|
+|"|"""""""\ \       '"|"|
+| |        \ \        | |
+: :         \ \       : :
+. .          `'       . .</pre>
+<pre>
+ ___________.._______
+| .__________))______|
+| | / /      ||
+| |/ /       ||
+| | /        ||.-''.
+| |/         |/  _  \
+| |          ||  `/,|
+| |          (\\`_.'
+| |         .-`--'.
+| |         \ . . /
+| |          |   |
+| |          | . |
+| |          | __|
+| |
+| |
+| |
+| |
+| |
+""""""""""|__  _____|"""|
+|"|"""""""\ \       '"|"|
+| |        \ \        | |
+: :         \ \       : :
+. .          `'       . .</pre>
+<pre>
+ ___________.._______
+| .__________))______|
+| | / /      ||
+| |/ /       ||
+| | /        ||.-''.
+| |/         |/  _  \
+| |          ||  `/,|
+| |          (\\`_.'
+| |         .-`--'.
+| |        /Y . . /
+| |       // |   |
+| |      //  | . |
+| |     ')   | __|
+| |
+| |
+| |
+| |
+| |
+""""""""""|__  _____|"""|
+|"|"""""""\ \       '"|"|
+| |        \ \        | |
+: :         \ \       : :
+. .          `'       . .</pre>
+<pre>
+ ___________.._______
+| .__________))______|
+| | / /      ||
+| |/ /       ||
+| | /        ||.-''.
+| |/         |/  _  \
+| |          ||  `/,|
+| |          (\\`_.'
+| |         .-`--'.
+| |        /Y . . Y\
+| |       // |   | \\
+| |      //  | . |  \\
+| |     ')   | __|   (`
+| |
+| |
+| |
+| |
+| |
+""""""""""|__  _____|"""|
+|"|"""""""\ \       '"|"|
+| |        \ \        | |
+: :         \ \       : :
+. .          `'       . .</pre>
+<pre>
+ ___________.._______
+| .__________))______|
+| | / /      ||
+| |/ /       ||
+| | /        ||.-''.
+| |/         |/  _  \
+| |          ||  `/,|
+| |          (\\`_.'
+| |         .-`--'.
+| |        /Y . . Y\
+| |       // |   | \\
+| |      //  | . |  \\
+| |     ')   | __|   (`
+| |          ||
+| |          ||
+| |          ||
+| |          ||
+| |         / |
+""""""""""|_`-'_____|"""|
+|"|"""""""\ \       '"|"|
+| |        \ \        | |
+: :         \ \       : :
+. .          `'       . .    </pre>
+<pre>
+ ___________.._______
+| .__________))______|
+| | / /      ||
+| |/ /       ||
+| | /        ||.-''.
+| |/         |/  _  \
+| |   You    ||  `/,|
+| |  Failed  (\\`_.'
+| |         .-`--'.
+| |        /Y . . Y\
+| |       // |   | \\
+| |      //  | . |  \\
+| |     ')   |   |   (`
+| |          ||'||
+| |          || ||
+| |          || ||
+| |          || ||
+| |         / | | \
+""""""""""|_`-' `-' |"""|
+|"|"""""""\ \       '"|"|
+| |        \ \        | |
+: :         \ \       : :
+. .          `'       . .</pre>
+  </div>
+  <p class="flow-text">
+    <samp id="guess"></samp>
+  </p>
+  <div id="letters" class="row">
+    <% [..."abcdefghijklmnopqrstuvwxyz"].forEach(l => { %>
+    <button class="btn row letter"><%- l %></button>
+    <% }) %>
+    <a href="hangman" class="btn red right">Reset</a>
+  </div>
+</div>
+<%- include("../inserts/foot.ejs", {scriptfile:"hangman.js"}) %>

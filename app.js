@@ -14,6 +14,9 @@ const basic_pages = [{
 }, {
   url: "/the_game",
   view: "projects/the_game"
+}, {
+  url: "/hangman",
+  view: "projects/hangman"
 }]
 
 app.get("/", (req, res) => {
@@ -43,6 +46,12 @@ app.get("/", (req, res) => {
       page_link: "the_game",
       github_link: "https://github.com/swag31415/The_Game",
       image_link: "/media/the_game.png"
+    }, {
+      title: "Hangman",
+      desc: "My first project when I learned nim, now rewritten in javascript!",
+      page_link: "hangman",
+      github_link: "https://github.com/swag31415/Hangman-Nim-",
+      image_link: "/media/hangman.png"
     }, {
       title: "Txty",
       desc: "A no-frills Quill-based in-browser text editor with hotkeys for everything! I find it suprisingly useful to dump information and gather my thoughts",
