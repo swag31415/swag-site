@@ -1,0 +1,57 @@
+<%- include("../inserts/head.ejs") %>
+<h1>The Game</h1>
+<p>A simulation of how <a href="https://en.wikipedia.org/wiki/The_Game_%28mind_game%29">The Game</a> spreads</p>
+<div class="row">
+  <div class="file-field input-field col s12 m10">
+    <div class="btn">
+      <span>Upload Network File</span>
+      <input id="network_upload" type="file" accept=".txt">
+    </div>
+    <div class="file-path-wrapper">
+      <input id="upload_path" class="file-path validate" type="text" placeholder="An edgelist representation of your network in a txt file">
+      <span class="helper-text" data-error="Please upload a network file"></span>
+    </div>
+  </div>
+  <div class="input-field col s12 m2">
+    <label>
+      <input id="is_directed" type="checkbox" class="filled-in">
+      <span>Is Directed</span>
+    </label>
+  </div>
+  <% ["seed","spread"].forEach(v => { %>
+  <div class="alg-select input-field col s8 m4">
+    <select id="<%- v %>_alg">
+      <option value="" disabled selected><%- v %> algorithm</option>
+      <% ["first","random","percent"].forEach(a => { %>
+      <option value="<%- a %>"><%- a %></option>
+      <% }) %>
+    </select>
+  </div>
+  <div class="input-field col s4 m2">
+    <input id="<%- v %>_opt" class="validate" type="number" disabled required>
+    <label for="<%- v %>_opt"></label>
+  </div>
+  <% }) %>
+  <div class="input-field col s10 m11">
+    <input id="n_entries" class="validate" type="number" min="1" required>
+    <label for="n_entries">Number of Iterations</label>
+  </div>
+  <div class="input-field col s2 m1">
+    <button id="run_the_game" class="btn" value="Run">Run</button>
+  </div>
+</div>
+<div id="results_modal" class="modal">
+  <div class="modal-content">
+    <h4>results</h4>
+    <table class="striped responsive-table">
+      <thead>
+        <tr id="results_headers"></tr>
+      </thead>
+      <tbody id="results_entries"></tbody>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-close btn-flat">Close</a>
+  </div>
+</div>
+<%- include("../inserts/foot.ejs", {scriptfile:"the_game.js"}) %>

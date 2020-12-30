@@ -4,7 +4,20 @@ const app = express()
   .use(express.static('public'))
 const port = process.env.PORT || 3000
 
-const nav_pages = [{name: "Coder Art", link: "coderart"}]
+const nav_pages = [{name: "Home", link: "/"}]
+const basic_pages = [{
+  url: "/coderart",
+  view: "projects/coderart/coderart"
+}, {
+  url: "/jugs",
+  view: "projects/jugs"
+}, {
+  url: "/the_game",
+  view: "projects/the_game"
+}, {
+  url: "/hangman",
+  view: "projects/hangman"
+}]
 
 app.get("/", (req, res) => {
   res.render("index", {
@@ -15,15 +28,43 @@ app.get("/", (req, res) => {
       page_link: "coderart",
       github_link: "https://github.com/swag31415/swag-site/blob/main/views/projects/coderart",
       image_link: "/media/coderart.png"
+    }, {
+      title: "Jugs",
+      desc: "A Javascript port of a short program I made to solve Jug Problems",
+      page_link: "jugs",
+      github_link: "https://github.com/swag31415/Jugs",
+      image_link: "/media/jug.png"
+    }, {
+      title: "Normal",
+      desc: "A thing I made while learning about normal numbers. It uses a genetic algorithm to generate arbitrarily large numbers with as many numbers below a limit as possible in its digits",
+      page_link: "https://colab.research.google.com/drive/1VZw58jOARVv5itOrgM3bF7mPh1Q3dJjt?usp=sharing",
+      github_link: "https://github.com/swag31415/Normal",
+      image_link: "/media/normal.png"
+    }, {
+      title: "The Game",
+      desc: "A simulation of how The Game spreads",
+      page_link: "the_game",
+      github_link: "https://github.com/swag31415/The_Game",
+      image_link: "/media/the_game.png"
+    }, {
+      title: "Hangman",
+      desc: "My first project when I learned nim, now rewritten in javascript!",
+      page_link: "hangman",
+      github_link: "https://github.com/swag31415/Hangman-Nim-",
+      image_link: "/media/hangman.png"
+    }, {
+      title: "Txty",
+      desc: "A no-frills Quill-based in-browser text editor with hotkeys for everything! I find it suprisingly useful to dump information and gather my thoughts",
+      page_link: "https://swag31415.github.io/Txty/",
+      github_link: "https://github.com/swag31415/Txty",
+      image_link: "/media/txty.png"
     }]
   })
 })
 
-app.get("/coderart", (req, res) => {
-  res.render("projects/coderart/coderart", {
-    nav_pages: nav_pages
-  })
-})
+basic_pages.forEach((page) => app.get(page.url, (req, res) => {
+  res.render(page.view, {nav_pages: nav_pages})
+}))
 
 app.listen(port, () => {
   console.log(`swag_site is up and running at http://localhost:${port}`)
