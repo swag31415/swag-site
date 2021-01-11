@@ -17,6 +17,9 @@ const basic_pages = [{
 }, {
   url: "/hangman",
   view: "projects/hangman"
+}, {
+  url: "/chess_move",
+  view: "projects/chess_move"
 }]
 
 app.get("/", (req, res) => {
@@ -52,6 +55,12 @@ app.get("/", (req, res) => {
       page_link: "hangman",
       github_link: "https://github.com/swag31415/Hangman-Nim-",
       image_link: "/media/hangman.png"
+    }, {
+      title: "Chess Move",
+      desc: "2000 games of chess visualized by the most common moves on every half turn",
+      page_link: "chess_move",
+      github_link: "https://colab.research.google.com/drive/1nr2RKGPrB-eNi0rMsckgqjHyDOVqRV9g?usp=sharing", // TODO add different label, this ain't github
+      image_link: "/media/chess_move.png"
     }, {
       title: "Txty",
       desc: "A no-frills Quill-based in-browser text editor with hotkeys for everything! I find it suprisingly useful to dump information and gather my thoughts",
