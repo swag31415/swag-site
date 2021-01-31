@@ -1,0 +1,41 @@
+<%- include("../inserts/head.ejs") %>
+<h1>Sorter</h1>
+<div class="input-field col s12">
+  <select id="sort_choice">
+    <option value="" disabled selected>What're we sorting?</option>
+  </select>
+  <label>Materialize Select</label>
+</div>
+<div id="sorts">
+  <div id="Numbers">
+    <div class="input-field col s12">
+      <textarea id="in_numbers" class="materialize-textarea"></textarea>
+      <label>Enter text here with numbers seperated by literally anything!</label>
+    </div>
+    <p id="out_numbers">The numbers will show up sorted here</p>
+  </div>
+  <div id="Images">
+    <div class="file-field input-field col s12">
+      <div class="btn">
+        <span>Images</span>
+        <input id="in_images" type="file" multiple accept="image/*">
+      </div>
+      <div class="file-path-wrapper">
+        <input class="file-path validate" type="text" placeholder="Upload the images here">
+      </div>
+    </div>
+    <div id="img_questions" class="row">
+      <h4>Which is better?</h4>
+      <div class="card col s6 m5 xl4">
+        <a href="#" id="img1" class="card-image"></a>
+      </div>
+      <div class="card col s6 m5 xl4 right">
+        <a href="#" id="img2" class="card-image"></a>
+      </div>
+    </div>
+    <div id="img_results" class="row">
+      <h4>Here they are sorted best to worst</h4>
+    </div>
+  </div>
+</div>
+<%- include("../inserts/foot.ejs", {scriptfile:"sorter.js"}) %>

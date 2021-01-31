@@ -20,6 +20,9 @@ const basic_pages = [{
 }, {
   url: "/chess_move",
   view: "projects/chess_move"
+}, {
+  url: "/sorter",
+  view: "projects/sorter"
 }]
 
 app.get("/", (req, res) => {
@@ -61,6 +64,12 @@ app.get("/", (req, res) => {
       page_link: "chess_move",
       github_link: "https://colab.research.google.com/drive/1nr2RKGPrB-eNi0rMsckgqjHyDOVqRV9g?usp=sharing", // TODO add different label, this ain't github
       image_link: "/media/chess_move.png"
+    }, {
+      title: "Sorter",
+      desc: "Use the Ford-Johnson aglorithm and YOUU to sort basically anything!",
+      page_link: "sorter",
+      github_link: "", // TOOO add github
+      image_link: "/media/sorter.png"
     }, {
       title: "Txty",
       desc: "A no-frills Quill-based in-browser text editor with hotkeys for everything! I find it suprisingly useful to dump information and gather my thoughts",
