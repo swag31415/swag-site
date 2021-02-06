@@ -16,25 +16,6 @@ $("#in_numbers").keyup(e => {
   )
 })
 
-// Reads all the images and returns a promise array of jquery img elements
-function read_all(images) {
-  return Promise.all(
-    [...images].map(v => new Promise(res => {
-      const reader = new FileReader()
-      reader.onload = e => res(`<img src="${e.target.result}"/>`)
-      reader.readAsDataURL(v)
-    }))
-  )
-}
-
-// Compares two images using the user (returns a promise)
-function compare(img1, img2) {
-  return new Promise(res => {
-    $("#img1").html(img1).click(() => res(true))
-    $("#img2").html(img2).click(() => res(false))
-  })
-}
-
 // Uses Binary search to insert. For the fg_sort
 async function bin_insert(a, e, cmp, i = 0, j = a.length - 1) {
   if (i > j) { a.splice(i, 0, e); return a }
@@ -51,7 +32,6 @@ async function fj_sort(a, cmp) {
   for (let i = 0; i < a.length; i += 2)
     pairs.push(await cmp(a[i], a[i + 1]) ? [a[i], a[i + 1]] : [a[i + 1], a[i]])
   pairs = await fj_sort(pairs, (a, b) => cmp(a[0], b[0]))
-  // pairs = pairs.sort((a, b) => a[0][0] - b[0][0])
   let sorted = pairs.pop(); next = []
   while (v = pairs.pop()) {
     sorted.unshift(v[0])
@@ -61,14 +41,34 @@ async function fj_sort(a, cmp) {
   return sorted
 }
 
+// Reads all the images and returns a promise array of img elements
+function read_all(images) {
+  return Promise.all(
+    [...images].map(v => new Promise(res => {
+      const reader = new FileReader()
+      reader.onload = e => res(`<img src="${e.target.result}"/>`)
+      reader.readAsDataURL(v)
+    }))
+  )
+}
+
+// Compares two images using the user (returns a promise)
+function img_cmp(img1, img2) {
+  return new Promise(res => {
+    $("#img1").html(img1).click(() => res(true))
+    $("#img2").html(img2).click(() => res(false))
+  })
+}
+
 // Hide the image stuff before the images get selected
 $("#img_questions,#img_results").hide()
 
 // Image sort
 $("#in_images").change(e => {
+  $("#img_results").hide().children(".card").remove()
   $("#img_questions").show()
   read_all(e.target.files)
-    .then(v => fj_sort(v, compare))
+    .then(v => fj_sort(v, img_cmp))
     .then(v => {
       $("#img_questions").hide()
       $("#img_results").show().append(
