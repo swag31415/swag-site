@@ -76,3 +76,27 @@ $("#in_images").change(e => {
       )
     })
 })
+
+// Compares two texts using the user (returns a promise)
+function text_cmp(text1, text2) {
+  return new Promise(res => {
+    $("#text1").text(text1).click(() => res(true))
+    $("#text2").text(text2).click(() => res(false))
+  })
+}
+
+// Hide the text stuff before the text gets selected
+$("#text_questions,#text_results").hide()
+
+// Text Sort
+$("#sort_text").click(e => {
+  $("#text_results").hide().children("p").remove()
+  $("#text_questions").show()
+  fj_sort($("#in_text").val().split(/\s*\\\\\s*/), text_cmp)
+    .then(v => {
+      $("#text_questions").hide()
+      $("#text_results").show().append(
+        v.map(v2 => `<p class="flow-text hoverable">${v2}</p>`)
+      )
+    })
+})
