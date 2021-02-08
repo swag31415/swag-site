@@ -1,0 +1,15 @@
+<%- include("../inserts/head.ejs", {stylesheet:"sudoku.css"}) %>
+<h1>Sudoku</h1>
+<% nums = [0,1,2,3,4,5,6,7,8] %>
+<table class="sudoku">
+  <% nums.forEach(r => { %>
+  <tr>
+    <% nums.forEach(c => { %>
+    <% let b = 3*Math.floor(r/3)+Math.floor(c/3) %>
+    <td class="<%-`r${r} c${c} b${b}`%> hoverable"><%-Math.floor(Math.random()*9+1)%></td>
+    <% }) %>
+    <td class="hoverable teal lighten-3"><%- r+1 %></td>
+  </tr>
+  <% }) %>
+</table>
+<%- include("../inserts/foot.ejs", {scriptfile:"sudoku.js"}) %>

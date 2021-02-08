@@ -23,6 +23,9 @@ const basic_pages = [{
 }, {
   url: "/sorter",
   view: "projects/sorter"
+}, {
+  url: "/sudoku",
+  view: "projects/sudoku"
 }]
 
 app.get("/", (req, res) => {
@@ -70,6 +73,12 @@ app.get("/", (req, res) => {
       page_link: "sorter",
       github_link: "", // TOOO add github
       image_link: "/media/sorter.png"
+    }, {
+      title: "Sudoku",
+      desc: "Sudoku game and solver I made for extra credit in a class",
+      page_link: "sudoku",
+      github_link: "", // TOOO add github
+      image_link: "/media/sudoku.png"
     }, {
       title: "Txty",
       desc: "A no-frills Quill-based in-browser text editor with hotkeys for everything! I find it suprisingly useful to dump information and gather my thoughts",

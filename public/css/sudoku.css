@@ -1,0 +1,22 @@
+table.sudoku {
+  width: auto;
+}
+.sudoku td {
+  width: 3em;
+  height: 3em;
+  border: 1px solid;
+  text-align: center;
+  cursor: pointer;
+}
+td.c0 {
+  border-left: solid;
+}
+td.c2,td.c5,td.c8 {
+  border-right: solid ;
+}
+td.r0 {
+  border-top: solid;
+}
+td.r2,td.r5,td.r8 {
+  border-bottom: solid;
+}
