@@ -2,12 +2,12 @@ const nums = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
 const rand = (arr) => arr[Math.floor(Math.random() * arr.length)]
 let data = {}
 
-$("td.tile").each((i, t) => data[t.className] = [])
+$("td.tile").each((i, t) => data[t.id] = [])
 
 function update(tile, val) {
-  if (data[tile.className].includes(val)) return;
+  if (data[tile.id].includes(val)) return;
   tile.className.match(/[rcb]\d/g).forEach(g => $("td.tile." + g).each((i, t) => {
-    blklst = data[t.className]
+    blklst = data[t.id]
     if (tile.innerText != "") blklst.splice(blklst.indexOf(tile.innerText), 1)
     if (val != "") blklst.push(val)
   }))
@@ -20,7 +20,7 @@ function solve(i = 100) {
   while (imp) {
     imp = false
     $("td.tile:empty").each((i, t) => {
-      posi = nums.filter(n => !data[t.className].includes(n))
+      posi = nums.filter(n => !data[t.id].includes(n))
       if (posi.length == 1) {
         update(t, posi[0])
         imp = true
@@ -29,7 +29,7 @@ function solve(i = 100) {
   }
   if ($("td.tile:empty").length > 0) {
     mat = [...$("td.tile")]
-      .map(t => [t, nums.filter(n => !data[t.className].includes(n))])
+      .map(t => [t, nums.filter(n => !data[t.id].includes(n))])
       .filter(v => v[1].length != 0)
     let [t, posi] = rand(mat)
     update(t, rand(posi))
