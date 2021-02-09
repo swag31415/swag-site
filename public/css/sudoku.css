@@ -8,15 +8,15 @@ table.sudoku {
   text-align: center;
   cursor: pointer;
 }
-td.c0 {
+td.c1 {
   border-left: solid;
 }
-td.c2,td.c5,td.c8 {
+td.c3,td.c6,td.c9 {
   border-right: solid ;
 }
-td.r0 {
+td.r1 {
   border-top: solid;
 }
-td.r2,td.r5,td.r8 {
+td.r3,td.r6,td.r9 {
   border-bottom: solid;
 }
