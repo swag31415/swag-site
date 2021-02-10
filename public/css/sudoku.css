@@ -8,15 +8,15 @@ table.sudoku {
   text-align: center;
   cursor: pointer;
 }
-td.c1 {
+.sudoku td:first-child {
   border-left: solid;
 }
-td.c3,td.c6,td.c9 {
+.sudoku td:nth-child(3n) {
   border-right: solid ;
 }
-td.r1 {
+.sudoku tr:first-child {
   border-top: solid;
 }
-td.r3,td.r6,td.r9 {
+.sudoku tr:nth-child(3n) {
   border-bottom: solid;
 }
