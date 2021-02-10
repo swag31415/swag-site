@@ -23,8 +23,7 @@ function revert(size) {
   }
 }
 
-function smart_rand_solve(i = 65) {
-  if (i < 0) return false;
+function do_implicit() {
   let imp = true
   while (imp) {
     imp = false
@@ -36,19 +35,22 @@ function smart_rand_solve(i = 65) {
       }
     })
   }
-  if ($("td.tile:empty").length > 0) {
-    mat = [...$("td.tile:not(.grey)")]
-      .map(t => [t, nums.filter(n => !data[t.id].includes(n))])
-      .filter(v => v[1].length != 0)
-    let [t, posi] = rand(mat)
-    update(t, rand(posi))
-    return smart_rand_solve(i-1)
-  }
-  return true
 }
+
 function solve() {
+  do_implicit()
   let init = move_stack.length
-  while (!smart_rand_solve()) revert(init)
+  while ($("td.tile:empty").length > 0) {
+    revert(init)
+    for (let i = 0; (i < 65) && ($("td.tile:empty").length > 0); i++) {
+      mat = [...$("td.tile:not(.grey)")]
+        .map(t => [t, nums.filter(n => !data[t.id].includes(n))])
+        .filter(v => v[1].length != 0)
+      let [t, posi] = rand(mat)
+      update(t, rand(posi))
+      do_implicit()
+    }
+  }
 }
 
 function reset() {
