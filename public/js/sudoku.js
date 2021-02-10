@@ -4,17 +4,26 @@ let data = {}
 
 $("td.tile").each((i, t) => data[t.id] = [])
 
+let move_stack = []
 function update(tile, val) {
-  if (data[tile.id].includes(val)) return;
+  let old = tile.innerText
+  if (val == old) return;
+  move_stack.push([tile, old])
   tile.className.match(/[rcb]\d/g).forEach(g => $("td.tile." + g).each((i, t) => {
     blklst = data[t.id]
-    if (tile.innerText != "") blklst.splice(blklst.indexOf(tile.innerText), 1)
+    if (old != "") blklst.splice(blklst.indexOf(old), 1)
     if (val != "") blklst.push(val)
   }))
   tile.innerText = val
 }
+function revert(size) {
+  while (move_stack.length > size) {
+    update(...move_stack.pop())
+    move_stack.pop()
+  }
+}
 
-function solve(i = 100) {
+function smart_rand_solve(i = 65) {
   if (i < 0) return false;
   let imp = true
   while (imp) {
@@ -28,37 +37,47 @@ function solve(i = 100) {
     })
   }
   if ($("td.tile:empty").length > 0) {
-    mat = [...$("td.tile")]
+    mat = [...$("td.tile:not(.grey)")]
       .map(t => [t, nums.filter(n => !data[t.id].includes(n))])
       .filter(v => v[1].length != 0)
     let [t, posi] = rand(mat)
     update(t, rand(posi))
-    return solve(i-1)
+    return smart_rand_solve(i-1)
   }
   return true
 }
-
-function reset() {
-  $("td.tile").each((i, t) => update(t, ""))
+function solve() {
+  let init = move_stack.length
+  while (!smart_rand_solve()) revert(init)
 }
 
-function generate(n = 60) {
+function reset() {
+  $("td.tile").removeClass("grey lighten-2").each((i, t) => update(t, ""))
+  move_stack = []
+}
+
+function generate(n = 70) {
+  reset()
   update(rand($("td.tile")), rand(nums))
-  if (!solve()) {
-    reset(); generate(n)
-  } else for(i = 0; i < n; i++) {
+  solve()
+  for(i = 0; i < n; i++) {
     update(rand($("td.tile")), "")
   }
+  $("td.tile:not(:empty)").addClass("grey lighten-2")
 }
 
 // TODO Improve input system
 var hovered;
 $("td.tile").hover(e => hovered = e.target, e => hovered = undefined)
 $(document).keyup(e => {
-  if (hovered && nums.includes(e.key))
+  if (hovered && nums.includes(e.key) && !data[hovered.id].includes(e.key)) {
     update(hovered, e.key)
-  else if (hovered && e.which == 46)
+    $(hovered).addClass("grey lighten-2")
+  } else if (hovered && e.which == 46) {
     update(hovered, "")
+    $(hovered).removeClass("grey lighten-2")
+  }
 })
 $("#solve").click(() => solve())
 $("#generate").click(() => generate())
+$("#clear").click(reset)
