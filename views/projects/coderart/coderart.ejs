@@ -27,37 +27,37 @@
 <div>
   <h4>How to use</h4>
   <div class="row">
-    <ol class="col s6">
+    <ol class="col s12 m6">
       <li>Set the width and height of the image in pixels.</li>
       <li>Set the number of runs (set this to one if you're confused)</li>
       <li>Enter javascript code in the box and press run.</li>
     </ol>
-    <textarea class="code col s6">return rgb(255, 0, 0)</textarea>
+    <textarea class="code col s12 m6">return rgb(255, 0, 0)</textarea>
   </div>
   <h4>How it works</h4>
   <div class="row">
-    <ul class="col s6 browser-default">
+    <ul class="col s12 m6 browser-default">
       <li>The javascript code in the box is a function.</li>
       <li>It is run for every pixel in the image.</li>
       <li>The function must return a color.</li>
       <li>Colors are represented as a four element array.</li>
       <li>You are provided many functions and variables so you can focus on the art!</li>
     </ul>
-    <textarea class="code col s6">if (x**2 + y**2 < 400**2)
+    <textarea class="code col s12 m6">if (x**2 + y**2 < 400**2)
   return hsv(x/w, 1, 1)
 else
   return rgb(0, 0, 0)</textarea>
   </div>
   <h4>Examples</h4>
   <div class="row">
-    <div class="col s6">
+    <div class="col s12 m6" style="margin-bottom: 2px;">
       <textarea class="code">x = x-(w/2); y = y-(h/2);
 d = x**2 + y**2 + (9**5)*Math.cos(x*y);
 m = (w/2)**2 + (h/2)**2;
 g = Math.floor((d/m)*10)/10;
 return hsv(g,1,1)</textarea>
     </div>
-    <div class="col s6">
+    <div class="col s12 m6" style="margin-bottom: 2px;">
       <textarea class="code">white = rgb(255, 255, 255)
 xor = (a, b) => a ? !b : b
 if ((!x && !y) || xor(eq(top, white), eq(left, white)))

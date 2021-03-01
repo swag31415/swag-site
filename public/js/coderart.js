@@ -71,6 +71,11 @@ function update_image(code) {
   $("#artbox").html(`<img src="${canvas.toDataURL()}">`)
 }
 
+function scroll_to_top() {
+  document.body.scrollTop = 0; // For Safari
+  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+
 // TODO: Improve this mess
 $("textarea.code").each((i, v) => {
   if (v.value.split('\n').length < 2) v.value += "\n\n"
@@ -89,5 +94,8 @@ $("textarea.code").each((i, v) => {
   }).addClass("btn")
     .text(v.id == "editor" ? "Run" : "Try it!")
     .appendTo(cm.display.wrapper)
-    .click(() => update_image(cm.getValue()))
+    .click(() => {
+      update_image(cm.getValue())
+      scroll_to_top()
+    })
 })
