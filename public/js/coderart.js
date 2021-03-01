@@ -22,7 +22,7 @@ const eq = (a, b) => // To compare colors
   a.length === b.length && a.every((v, i) => v === b[i]);
 // ------------------------------------------------------------------- //
 
-function update_image() {
+function update_image(code) {
   // Get parameters
   w = $("#width").val()
   h = $("#height").val()
@@ -41,7 +41,7 @@ function update_image() {
   }
 
   // The user's code
-  func = eval(`(x, y, i, w, h, c, top, bottom, left, right, get, rgb, cmy, hsv) => {${codemirror.getValue()}}`)
+  func = eval(`(x, y, i, w, h, c, top, bottom, left, right, get, rgb, cmy, hsv) => {${code}}`)
 
   for (let i = 0; i < n_runs; i++) {
     for (let y = 0; y < w; y++) {
@@ -71,29 +71,23 @@ function update_image() {
   $("#artbox").html(`<img src="${canvas.toDataURL()}">`)
 }
 
-// Initialize the codemirror
-var codemirror = CodeMirror(document.getElementById("editor"), {
-  mode: "text/javascript",
-  tabSize: 2,
-  theme: "seti",
-  value: `white = rgb(255, 255, 255)
-  xor = (a, b) => a ? !b : b
-  if (!i && ((!x && !y) || xor(eq(top, white), eq(left, white))))
-    return white
-  else if (!i)
-    return rgb(0, 0, 0)
-  else {
-    [x, y] = [(x/w)*255, (y/h)*255]
-    return eq(c, white) ? rgb(y, 510-x-y, x) : cmy(y, 510-x-y, x)
-  }`
+// TODO: Improve this mess
+$("textarea.code").each((i, v) => {
+  if (v.value.split('\n').length < 2) v.value += "\n\n"
+  let cm = CodeMirror.fromTextArea(v, {
+    mode: "text/javascript",
+    tabSize: 2,
+    theme: "seti",
+    readOnly: v.id != "editor"
+  });
+  cm.display.wrapper.className += " " + v.className
+  $("<button></button>").css({
+    "position": "absolute",
+    "bottom": "0.5em",
+    "right": "0.5em",
+    "z-index": "2"
+  }).addClass("btn")
+    .text(v.id == "editor" ? "Run" : "Try it!")
+    .appendTo(cm.display.wrapper)
+    .click(() => update_image(cm.getValue()))
 })
-
-// Add a run button to the codemirror
-$("<button></button>").css({
-  "position": "absolute",
-  "bottom": "0.5em",
-  "right": "0.5em"
-}).addClass("btn")
-  .text("Run")
-  .click(update_image)
-  .appendTo("#editor > .CodeMirror")
