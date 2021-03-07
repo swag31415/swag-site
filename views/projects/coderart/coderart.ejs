@@ -18,11 +18,129 @@
     <span class="helper-text" data-error="Please enter a positive integer"></span>
   </div>
   <div class="input-field col s4 m2">
-    <input id="n_runs" class="validate" type="number" value="2" min="1" required>
+    <input id="n_runs" class="validate" type="number" value="1" min="1" required>
     <label for="n_runs">number of runs</label>
     <span class="helper-text" data-error="Please enter a positive integer"></span>
   </div>
-  <div id="editor" class="col s12 m6" style="position: relative;">
+  <textarea id="editor" class="code col s12 m6">// CODE THE ART!!!</textarea>
+</div>
+<div>
+  <h4>How to use</h4>
+  <div class="row">
+    <ol class="col s12 m6">
+      <li>Set the width and height of the image in pixels.</li>
+      <li>Set the number of runs (set this to one if you're confused)</li>
+      <li>Enter javascript code in the box and press run.</li>
+    </ol>
+    <textarea class="code col s12 m6">return rgb(255, 0, 0)</textarea>
   </div>
+  <h4>How it works</h4>
+  <div class="row">
+    <ul class="col s12 m6 browser-default">
+      <li>The javascript code in the box is a function.</li>
+      <li>It is run for every pixel in the image.</li>
+      <li>The function must return a color.</li>
+      <li>Colors are represented as a four element array.</li>
+      <li>You are provided many functions and variables so you can focus on the art!</li>
+    </ul>
+    <textarea class="code col s12 m6">if (x**2 + y**2 < 400**2)
+  return hsv(x/w, 1, 1)
+else
+  return rgb(0, 0, 0)</textarea>
+  </div>
+  <h4>Examples</h4>
+  <div class="row">
+    <div class="col s12 m6" style="margin-bottom: 2px;">
+      <textarea class="code">x = x-(w/2); y = y-(h/2);
+d = x**2 + y**2 + (9**5)*Math.cos(x*y);
+m = (w/2)**2 + (h/2)**2;
+g = Math.floor((d/m)*10)/10;
+return hsv(g,1,1)</textarea>
+    </div>
+    <div class="col s12 m6" style="margin-bottom: 2px;">
+      <textarea class="code">white = rgb(255, 255, 255)
+xor = (a, b) => a ? !b : b
+if ((!x && !y) || xor(eq(top, white), eq(left, white)))
+  return white
+else return rgb(0, 0, 0)</textarea>
+    </div>
+    <div class="col s12 m6" style="margin-bottom: 2px;">
+      <textarea class="code">x=(x/w)-0.5;y=0.5-(y/h)
+r=Math.sqrt(x**2+y**2)*1.5
+t=Math.atan(y/x) + (x&lt0 ? Math.PI : (y&lt0 ? 2*Math.PI : 0))
+d=2*r+5+Math.cos(3*r*t)
+p=Math.floor((r+d*0.5)*10)/10
+return hsv(p,1,1)</textarea>
+    </div>
+  </div>
+  <h4>Provided Functions and Variables</h4>
+  <table>
+    <thead>
+      <th>Name</th>
+      <th>Description</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>rgb(r, g, b, a = 255)</code></td>
+        <td>Use this to make <span style="color: red;">R</span><span style="color: green;">G</span><span style="color: blue;">B</span> colors. Use <code>a</code> for alpha or opacity. All numbers are between <code>0</code> and <code>255</code>.</td>
+      </tr>
+      <tr>
+        <td><code>cmy(c, m, y, k = 0)</code></td>
+        <td>Essentially the opposite of <code>rgb</code>. Use this to make <span style="color: cyan;">C</span><span style="color: magenta;">M</span><span style="color: yellow;">Y</span> colors. Use <code>k</code> for transparency. All numbers are between <code>0</code> and <code>255</code>.</td>
+      </tr>
+      <tr>
+        <td><code>hsv(h, s, v, a = 1)</code></td>
+        <td>Stands for hue, saturation, value. The hue is the color; saturation is the shade; value is the brightness. Use <code>a</code> for alpha or opacity. All numbers are between <code>0</code> and <code>1</code>.</td>
+      </tr>
+      <tr>
+        <td><code>eq(a, b)</code></td>
+        <td>Use this to check if two colors, <code>a</code> and <code>b</code>, are equal. <code>a == b</code> <strong>DOES NOT WORK</strong>. This is because javascript sucks.</td>
+      </tr>
+      <tr>
+        <td><code>get(x, y)</code></td>
+        <td>Use this to get the color of the pixel located at <code>x, y</code>.</td>
+      </tr>
+      <tr>
+        <td><code>x</code></td>
+        <td>The <code>x</code>-value of the current pixel. <code>x</code> is <code>0</code> on the left and increases as you move right</td>
+      </tr>
+      <tr>
+        <td><code>y</code></td>
+        <td>The <code>y</code>-value of the current pixel. <code>y</code> is <code>0</code> at the top and increases as you move down</td>
+      </tr>
+      <tr>
+        <td><code>w</code></td>
+        <td>Gets the width of the image in pixels. This is the value you set above</td>
+      </tr>
+      <tr>
+        <td><code>h</code></td>
+        <td>Gets the height of the image in pixels. This is the value you set above</td>
+      </tr>
+      <tr>
+        <td><code>i</code></td>
+        <td>Gets the current iteration or round. The first round is <code>0</code>, the second is <code>1</code> and so on. This only applies if you set the number of rounds to more than one.</td>
+      </tr>
+      <tr>
+        <td><code>c</code></td>
+        <td>Gets the color of the current pixel. If you haven't set a color it returns a transparent pixel.</td>
+      </tr>
+      <tr>
+        <td><code>top</code></td>
+        <td>Gets the color of the pixel above the current one. If you haven't set a color or if there is no pixel above, it returns a transparent pixel.</td>
+      </tr>
+      <tr>
+        <td><code>bottom</code></td>
+        <td>Gets the color of the pixel below the current one. If you haven't set a color or if there is no pixel below, it returns a transparent pixel.</td>
+      </tr>
+      <tr>
+        <td><code>left</code></td>
+        <td>Gets the color of the pixel to the left of the current one. If you haven't set a color or if there is no pixel to the left, it returns a transparent pixel.</td>
+      </tr>
+      <tr>
+        <td><code>right</code></td>
+        <td>Gets the color of the pixel to the right of the current one. If you haven't set a color or if there is no pixel to the right, it returns a transparent pixel.</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 <%- include("../../inserts/foot.ejs", {plugins:plugins, scriptfile:"coderart.js"}) %>
