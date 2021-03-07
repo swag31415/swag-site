@@ -95,7 +95,9 @@ app.get("/", (req, res) => {
 const helpful_api = require("./src/helpful_api.js")
 app.post("/helpful", (req, res) => {
   helpful_api.get_advice(req.body.question).then(advice => {
-    res.send(advice)
+    // Sort the advice and return the top 50
+    sorted = Object.keys(advice).sort((a, b) => advice[b]-advice[a])
+    res.json(sorted.slice(0, 50))
   })
 })
 
