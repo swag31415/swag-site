@@ -26,7 +26,7 @@ $("#ask").click(() => {
   }).then(data => data.json().then(jdata => {
     advice = jdata
     $("#loader").hide()
-    $("#advice").text(advice.shift())
+    $("#advice").text(advice.shift()).show()
   }))
   .catch(console.log)
 })
