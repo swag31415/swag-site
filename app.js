@@ -23,6 +23,9 @@ const basic_pages = [{
 }, {
   url: "/sorter",
   view: "projects/sorter"
+}, {
+  url: "/helpful",
+  view: "projects/helpful"
 }]
 
 app.get("/", (req, res) => {
@@ -70,6 +73,12 @@ app.get("/", (req, res) => {
       page_link: "sorter",
       github_link: "", // TOOO add github
       image_link: "/media/sorter.png"
+    }, {
+      title: "Helpful",
+      desc: "Data-Science Teams project with Zaki and Brandon. Get personalized Ai-Generated life advice",
+      page_link: "helpful",
+      github_link: "https://github.com/zakidane/Advice_AI",
+      image_link: "/media/helpful.png"
     }, {
       title: "Txty",
       desc: "A no-frills Quill-based in-browser text editor with hotkeys for everything! I find it suprisingly useful to dump information and gather my thoughts",
