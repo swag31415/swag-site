@@ -40,10 +40,30 @@ app.get("/", (req, res) => {
       page_link: "coderart",
       image_link: "/media/coderart.png"
     }, {
+      title: "Helpful",
+      desc: "Data-Science Teams project with Zaki and Brandon. Get personalized Ai-Generated life advice",
+      page_link: "helpful",
+      image_link: "/media/helpful.png"
+    }, {
+      title: "Hangman",
+      desc: "My first project when I learned nim, now rewritten in javascript!",
+      page_link: "hangman",
+      image_link: "/media/hangman.png"
+    }, {
       title: "Jugs",
       desc: "A Javascript port of a short program I made to solve Jug Problems",
       page_link: "jugs",
       image_link: "/media/jug.png"
+    }, {
+      title: "Sorter",
+      desc: "Use the Ford-Johnson aglorithm and YOUU to sort basically anything!",
+      page_link: "sorter",
+      image_link: "/media/sorter.png"
+    }, {
+      title: "Chess Move",
+      desc: "2000 games of chess visualized by the most common moves on every half turn",
+      page_link: "chess_move",
+      image_link: "/media/chess_move.png"
     }, {
       title: "Normal",
       desc: "A thing I made while learning about normal numbers. It uses a genetic algorithm to generate arbitrarily large numbers with as many numbers below a limit as possible in its digits",
@@ -54,27 +74,6 @@ app.get("/", (req, res) => {
       desc: "A simulation of how The Game spreads",
       page_link: "the_game",
       image_link: "/media/the_game.png"
-    }, {
-      title: "Hangman",
-      desc: "My first project when I learned nim, now rewritten in javascript!",
-      page_link: "hangman",
-      image_link: "/media/hangman.png"
-    }, {
-      title: "Chess Move",
-      desc: "2000 games of chess visualized by the most common moves on every half turn",
-      page_link: "chess_move",
-      image_link: "/media/chess_move.png"
-    }, {
-      title: "Sorter",
-      desc: "Use the Ford-Johnson aglorithm and YOUU to sort basically anything!",
-      page_link: "sorter",
-      image_link: "/media/sorter.png"
-    }, {
-      title: "Helpful",
-      desc: "Data-Science Teams project with Zaki and Brandon. Get personalized Ai-Generated life advice",
-      page_link: "helpful",
-      github_link: "https://github.com/zakidane/Advice_AI",
-      image_link: "/media/helpful.png"
     }, {
       title: "Txty",
       desc: "A no-frills Quill-based in-browser text editor with hotkeys for everything! I find it suprisingly useful to dump information and gather my thoughts",
