@@ -12,7 +12,11 @@ $("#advice").click(e => {
     })
 })
 
+$("#loader").hide()
+
 $("#ask").click(() => {
+  $("#advice").hide()
+  $("#loader").show()
   age = $("#age").val()
   query = (age ? `I am ${age} years old. ` : "") + $("#question").val()
   fetch("/helpful", {
@@ -21,7 +25,8 @@ $("#ask").click(() => {
     body: JSON.stringify({question: query})
   }).then(data => data.json().then(jdata => {
     advice = jdata
-    $("#advice").click()
+    $("#loader").hide()
+    $("#advice").text(advice.shift())
   }))
   .catch(console.log)
 })
