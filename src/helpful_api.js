@@ -58,3 +58,38 @@ module.exports.get_advice = async (question) => {
   }
   return relavance
 }
+
+const { Pool } = require('pg')
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }
+})
+
+// CREATE TABLE helpful_data (
+//   question text NOT NULL,
+//   n_asks int NOT NULL,
+//   ask_time timestamp NULL DEFAULT CURRENT_TIMESTAMP
+// );
+module.exports.log = (question) => {
+  pool.connect().then(client => {
+    return client
+      .query("INSERT INTO helpful_data (question, n_asks) VALUES ($1, $2)", [question, 1])
+      .then(res => client.release())
+      .catch(err => {
+        client.release()
+        console.log(err.stack)
+      })
+  })
+}
+
+module.exports.update = (question) => {
+  pool.connect().then(client => {
+    return client
+      .query("UPDATE helpful_data SET n_asks=n_asks+1 WHERE id=(SELECT id FROM helpful_data WHERE question=$1 ORDER BY ask_time DESC LIMIT 1)", [question])
+      .then(res => client.release())
+      .catch(err => {
+        client.release()
+        console.log(err.stack)
+      })
+  })
+}

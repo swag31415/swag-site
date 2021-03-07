@@ -94,11 +94,17 @@ app.get("/", (req, res) => {
 
 const helpful_api = require("./src/helpful_api.js")
 app.post("/helpful", (req, res) => {
+  helpful_api.log(req.body.question)
   helpful_api.get_advice(req.body.question).then(advice => {
     // Sort the advice and return the top 50
     sorted = Object.keys(advice).sort((a, b) => advice[b]-advice[a])
     res.json(sorted.slice(0, 50))
   })
+})
+
+app.post("/helpful/update", (req, res) => {
+  helpful_api.update(req.body.question)
+  res.send("Success")
 })
 
 basic_pages.forEach((page) => app.get(page.url, (req, res) => {
