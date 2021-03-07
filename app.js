@@ -1,7 +1,10 @@
 const express = require("express")
+var bodyParser = require('body-parser')
 const app = express()
   .set("view engine", "ejs")
   .use(express.static('public'))
+  .use(bodyParser.urlencoded({ extended: false }))
+  .use(bodyParser.json())
 const port = process.env.PORT || 3000
 
 const nav_pages = [{name: "Home", link: "/"}]
@@ -86,6 +89,13 @@ app.get("/", (req, res) => {
       github_link: "https://github.com/swag31415/Txty",
       image_link: "/media/txty.png"
     }]
+  })
+})
+
+const helpful_api = require("./src/helpful_api.js")
+app.post("/helpful", (req, res) => {
+  helpful_api.get_advice(req.body.question).then(advice => {
+    res.send(advice)
   })
 })
 
