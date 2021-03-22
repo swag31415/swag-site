@@ -8,28 +8,7 @@ const app = express()
 const port = process.env.PORT || 3000
 
 const nav_pages = [{name: "Home", link: "/"}]
-const basic_pages = [{
-  url: "/coderart",
-  view: "projects/coderart/coderart"
-}, {
-  url: "/jugs",
-  view: "projects/jugs"
-}, {
-  url: "/the_game",
-  view: "projects/the_game"
-}, {
-  url: "/hangman",
-  view: "projects/hangman"
-}, {
-  url: "/chess_move",
-  view: "projects/chess_move"
-}, {
-  url: "/sorter",
-  view: "projects/sorter"
-}, {
-  url: "/helpful",
-  view: "projects/helpful"
-}]
+const basic_projects = ["coderart", "jugs", "the_game", "hangman", "chess_move", "sorter", "helpful"]
 
 app.get("/", (req, res) => {
   res.render("index", {
@@ -98,8 +77,8 @@ app.post("/helpful/update", (req, res) => {
   res.send("Success")
 })
 
-basic_pages.forEach((page) => app.get(page.url, (req, res) => {
-  res.render(page.view, {nav_pages: nav_pages})
+basic_projects.forEach((page) => app.get("/"+page, (req, res) => {
+  res.render("projects/"+page, {nav_pages: nav_pages})
 }))
 
 app.listen(port, () => {
