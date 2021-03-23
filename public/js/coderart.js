@@ -20,6 +20,7 @@ const hsv = (h, s, v, a = 1) => { // Create a hsv color
 }
 const eq = (a, b) => // To compare colors
   a.length === b.length && a.every((v, i) => v === b[i]);
+const clamp = (n, low, high) => n > high ? high : (n < low ? low : n)
 // ------------------------------------------------------------------- //
 
 function update_image(code) {
@@ -34,22 +35,19 @@ function update_image(code) {
   // Initialize access methods
   let calc = (x, y) => 4 * (y * w + x)
   let get = (x, y) => {
-    if (x < 0 || x >= w || y < 0 || y >= h)
-      return [0, 0, 0, 0]
-    idx = calc(x, y)
+    idx = calc(clamp(x, 0, w), clamp(y, 0, h))
     return [img[idx], img[idx + 1], img[idx + 2], img[idx + 3]]
   }
 
   // The user's code
-  func = eval(`(x, y, i, w, h, c, top, bottom, left, right, get, rgb, cmy, hsv) => {${code}}`)
+  func = eval(`(x, y, i, w, h, c, top, bottom, left, right) => {${code}}`)
 
   for (let i = 0; i < n_runs; i++) {
     for (let y = 0; y < w; y++) {
       for (let x = 0; x < h; x++) {
         // Run the user's function and calculate 
         pix = func(x, y, i, w, h, get(x, y),
-          get(x, y - 1), get(x, y + 1), get(x - 1, y), get(x + 1, y),
-          get, rgb, cmy, hsv)
+          get(x, y - 1), get(x, y + 1), get(x - 1, y), get(x + 1, y))
         get(x, y) // idk why this is needed but it works. TODO figure it out
 
         // Assign the pixel values

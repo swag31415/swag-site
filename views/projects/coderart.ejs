@@ -1,5 +1,5 @@
 <% const plugins = ["codemirror"] %>
-<%- include("../../inserts/head.ejs", {plugins:plugins}) %>
+<%- include("../inserts/head.ejs", {plugins:plugins}) %>
 <h1>Coder Art</h1>
 <div class="row">
   <div class="col s12 m6 l4">
@@ -40,7 +40,7 @@
       <li>The javascript code in the box is a function.</li>
       <li>It is run for every pixel in the image.</li>
       <li>The function must return a color.</li>
-      <li>Colors are represented as a four element array.</li>
+      <li>Colors are represented as an array of four numbers.</li>
       <li>You are provided many functions and variables so you can focus on the art!</li>
     </ul>
     <textarea class="code col s12 m6">if (x**2 + y**2 < 400**2)
@@ -97,8 +97,12 @@ return hsv(p,1,1)</textarea>
         <td>Use this to check if two colors, <code>a</code> and <code>b</code>, are equal. <code>a == b</code> <strong>DOES NOT WORK</strong>. This is because javascript sucks.</td>
       </tr>
       <tr>
+        <td><code>clamp(number, low, high)</code></td>
+        <td>Use this to force a number between <code>low</code> and <code>high</code>. This is the same as <code>Math.max(high, Math.min(low, number))</code></td>
+      </tr>
+      <tr>
         <td><code>get(x, y)</code></td>
-        <td>Use this to get the color of the pixel located at <code>x, y</code>.</td>
+        <td>Use this to get the color of the pixel located at <code>x, y</code>. If <code>x, y</code> is outside of the image then it returns the closest pixel inside the image.</td>
       </tr>
       <tr>
         <td><code>x</code></td>
@@ -143,4 +147,4 @@ return hsv(p,1,1)</textarea>
     </tbody>
   </table>
 </div>
-<%- include("../../inserts/foot.ejs", {plugins:plugins, scriptfile:"coderart.js"}) %>
+<%- include("../inserts/foot.ejs", {plugins:plugins, scriptfile:"coderart.js"}) %>
