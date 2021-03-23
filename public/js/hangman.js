@@ -1,8 +1,8 @@
 var word, guesses = [], stage = 0
 
 // Renders the word and replaces non-guessed letters with underscores
-function render_word() {
-  $("#guess").html(word.replace(/[A-Za-z]/g, m => (guesses.includes(m) ? m : "_") + "&nbsp"))
+function render_word(showall=false) {
+  $("#guess").html(word.replace(/[A-Za-z]/g, m => (guesses.includes(m) || showall ? m : "_") + "&nbsp"))
 }
 
 function start_game() {
@@ -22,17 +22,18 @@ $(".letter").click(function () {
   } else { // Otherwise show the next stage
     $("#stages pre").hide().eq(++stage).show()
   }
-  
-  // If we run out of stages disable all the letters
-  if (stage >= $("#stages pre").length - 1) {
-    $(".letter").prop("disabled", true)
-  }
 
   // Get how many letters are left by counting the underscores
   remaining = ($("#guess").html().match(/_/g) || []).length
   if (remaining == 0) { // Win condition
     alert("You win!!") // some celebration
     $(".letter").prop("disabled", true) // disable all the letters
+  }
+  
+  // If we run out of stages disable all the letters
+  if (stage >= $("#stages pre").length - 1) {
+    $(".letter").prop("disabled", true)
+    render_word(true)
   }
 })
 
