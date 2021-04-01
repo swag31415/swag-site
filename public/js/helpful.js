@@ -9,12 +9,14 @@ function get_query() {
 }
 
 $("#question,#age").change(() => {
-  if (curr_question != get_query())
+  let query = get_query()
+  if (curr_question != query) {
     $("#ask").text("ASK!").removeClass("purple").addClass("green")
+    curr_question = query
+  }
 })
 
 $("#ask").click(e => {
-  console.log(e.target.innerText)
   if (e.target.innerText == "ASK!") {
     $("#advice").hide()
     $("#loader").show()
