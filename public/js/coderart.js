@@ -40,14 +40,13 @@ function update_image(code) {
   }
 
   // The user's code
-  func = eval(`(x, y, i, w, h, c, top, bottom, left, right) => {${code}}`)
+  func = Function('x', 'y', 'i', 'w', 'h', 'get', 'rel', code)
 
   for (let i = 0; i < n_runs; i++) {
     for (let y = 0; y < w; y++) {
       for (let x = 0; x < h; x++) {
-        // Run the user's function and calculate 
-        pix = func(x, y, i, w, h, get(x, y),
-          get(x, y - 1), get(x, y + 1), get(x - 1, y), get(x + 1, y))
+        // Run the user's function and calculate
+        pix = func(x, y, i, w, h, get, (dx, dy) => get(x+dx, y+dy))
         get(x, y) // idk why this is needed but it works. TODO figure it out
 
         // Assign the pixel values
