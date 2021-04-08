@@ -51,16 +51,10 @@ else
   <h4>Examples</h4>
   <div class="row">
     <div class="col s12 m6" style="margin-bottom: 2px;">
-      <textarea class="code">x = x-(w/2); y = y-(h/2);
-d = x**2 + y**2 + (9**5)*Math.cos(x*y);
-m = (w/2)**2 + (h/2)**2;
-g = Math.floor((d/m)*10)/10;
-return hsv(g,1,1)</textarea>
-    </div>
-    <div class="col s12 m6" style="margin-bottom: 2px;">
       <textarea class="code">white = rgb(255, 255, 255)
 xor = (a, b) => a ? !b : b
-if ((!x && !y) || xor(eq(top, white), eq(left, white)))
+up = rel(0, -1); left = rel(-1, 0)
+if ((!x && !y) || xor(eq(up, white), eq(left, white)))
   return white
 else return rgb(0, 0, 0)</textarea>
     </div>
@@ -71,6 +65,13 @@ t=Math.atan(y/x) + (x&lt0 ? Math.PI : (y&lt0 ? 2*Math.PI : 0))
 d=2*r+5+Math.cos(3*r*t)
 p=Math.floor((r+d*0.5)*10)/10
 return hsv(p,1,1)</textarea>
+    </div>
+    <div class="col s12 m6" style="margin-bottom: 2px;">
+      <textarea class="code">x = x-(w/2); y = y-(h/2);
+d = x**2 + y**2 + (9**5)*Math.cos(x*y);
+m = (w/2)**2 + (h/2)**2;
+g = Math.floor((d/m)*10)/10;
+return hsv(g,1,1)</textarea>
     </div>
   </div>
   <h4>Provided Functions and Variables</h4>
@@ -105,6 +106,10 @@ return hsv(p,1,1)</textarea>
         <td>Use this to get the color of the pixel located at <code>x, y</code>. If <code>x, y</code> is outside of the image then it returns the closest pixel inside the image.</td>
       </tr>
       <tr>
+        <td><code>rel(dx, dy)</code></td>
+        <td>A relative version of <code>get(x, y)</code>. This is the same as <code>get(x+dx, y+dy)</code></td>
+      </tr>
+      <tr>
         <td><code>x</code></td>
         <td>The <code>x</code>-value of the current pixel. <code>x</code> is <code>0</code> on the left and increases as you move right</td>
       </tr>
@@ -123,26 +128,6 @@ return hsv(p,1,1)</textarea>
       <tr>
         <td><code>i</code></td>
         <td>Gets the current iteration or round. The first round is <code>0</code>, the second is <code>1</code> and so on. This only applies if you set the number of rounds to more than one.</td>
-      </tr>
-      <tr>
-        <td><code>c</code></td>
-        <td>Gets the color of the current pixel. If you haven't set a color it returns a transparent pixel.</td>
-      </tr>
-      <tr>
-        <td><code>top</code></td>
-        <td>Gets the color of the pixel above the current one. If you haven't set a color or if there is no pixel above, it returns a transparent pixel.</td>
-      </tr>
-      <tr>
-        <td><code>bottom</code></td>
-        <td>Gets the color of the pixel below the current one. If you haven't set a color or if there is no pixel below, it returns a transparent pixel.</td>
-      </tr>
-      <tr>
-        <td><code>left</code></td>
-        <td>Gets the color of the pixel to the left of the current one. If you haven't set a color or if there is no pixel to the left, it returns a transparent pixel.</td>
-      </tr>
-      <tr>
-        <td><code>right</code></td>
-        <td>Gets the color of the pixel to the right of the current one. If you haven't set a color or if there is no pixel to the right, it returns a transparent pixel.</td>
       </tr>
     </tbody>
   </table>
