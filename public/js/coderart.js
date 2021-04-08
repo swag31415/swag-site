@@ -40,7 +40,7 @@ function update_image(code) {
   }
 
   // The user's code
-  func = eval(`(x, y, i, w, h, c, top, bottom, left, right) => {${code}}`)
+  func = Function('x', 'y', 'i', 'w', 'h', 'c', 'top', 'bottom', 'left', 'right', code)
 
   for (let i = 0; i < n_runs; i++) {
     for (let y = 0; y < w; y++) {
