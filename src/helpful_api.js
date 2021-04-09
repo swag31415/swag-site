@@ -3,16 +3,16 @@ const use = require('@tensorflow-models/universal-sentence-encoder')
 const model = use.loadQnA()
 
 const fs = require("fs")
-const cache_file = "./src/assets/a_embed.json"
 
-const advice = ["./src/assets/heyfromthefuture.json", "./src/assets/randomstuffifound.json"]
+const [heyfromthefuture, randomstuffifound] = ["./src/assets/heyfromthefuture.json", "./src/assets/randomstuffifound.json"]
   .map(path => JSON.parse(fs.readFileSync(path)))
-  .reduce((a, b) => {
-    a.responses.push(...b.responses)
-    a.contexts.push(...b.contexts)
-    return a
-  })
 
+const advice = {
+  responses: [...heyfromthefuture.map(v => v.slice(17)), ...randomstuffifound],
+  contexts: [...heyfromthefuture, ...randomstuffifound]
+}
+
+const cache_file = "./src/assets/a_embed.json"
 const advice_embeddings = new Promise((res) => fs.readFile(cache_file, (err, data) => {
   // If we had an error while reading (probably because it was missing)
   if (err) {
@@ -69,6 +69,7 @@ const pool = new Pool({
 //   question text NOT NULL,
 //   n_asks int NOT NULL,
 //   ask_time timestamp NULL DEFAULT CURRENT_TIMESTAMP
+//   id SERIAL PRIMARY KEY
 // );
 module.exports.log = (question) => {
   pool.connect().then(client => {
