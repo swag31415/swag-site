@@ -80,6 +80,37 @@ v = Math.sin(p*x*y)
 return v < 0.1 ?
   rgb(255, 247, 48) : cmy(255, 247, 48)</textarea>
     </div>
+    <div class="col s12 m6" style="margin-bottom: 2px;">
+      <textarea class="code">if (!x && !y) {
+ rand = n => Math.floor(Math.random() * n * 2) - n
+ randf = () => 2*Math.random() - 1
+ randb = () => Math.random() < 0.618
+ pts = Array.from({length:69},
+  () => [randb()?rand(3):randf(), rand(h)])
+}
+lin = (m, b) => Math.abs(((h/2)-y)-(m*(x-(w/2))+b))
+v = Math.min(...pts.map(v => lin(...v)))
+return hsv(0,0,v)</textarea>
+    </div>
+    <div class="col s12 m6" style="margin-bottom: 2px;">
+      <textarea class="code">if (!x && !y) {
+ rand = n => Math.floor(Math.random()*n)
+ pts = Array.from({length:20}, () => [rand(w),rand(h)])
+ dst = (x1,y1,x2,y2) => (x1-x2)**2 + (y1-y2)**2
+ argmin = arr => arr.map((x,i) => [x,i]).reduce((r,a) => (a[0]<r[0]?a:r));
+}
+[d,v] = argmin(pts.map(v => dst(x,y,...v)))
+return hsv(v/20,1,1-d/3e4)</textarea>
+    </div>
+    <div class="col s12 m6" style="margin-bottom: 2px;">
+      <textarea class="code">if (!x && !y) {
+ rand = n => Math.floor(Math.random()*n)
+ pts = Array.from({length:20}, () => [rand(w),rand(h)])
+ dst = (x1,y1,x2,y2) => (x1-x2)**2 + (y1-y2)**2
+}
+v = Math.min(...pts.map(v => dst(x,y,...v)))
+return hsv(1,1,v/1e4)</textarea>
+    </div>
   </div>
   <h4>Provided Functions and Variables</h4>
   <table>
