@@ -38,8 +38,10 @@
       min-height: 1;
     }
   </style>
-  <% } else if (plugins.includes("kaushan-script")) { %>
-    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+  <% } if (plugins.includes("kaushan-script")) { %>
+    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet" type="text/css">
+  <% } if (plugins.includes("masonry")) { %>
+    <link rel="stylesheet" href="css/masonry.css">
   <% }} %>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
