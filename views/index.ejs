@@ -3,17 +3,15 @@
 <p>A place for me to put a lot of my (hopefully) cool stuff</p>
 <div class="masonry mm2 ml3">
   <% cards.forEach(card => { %>
-  <div class="item">
-    <div class="card blue-grey darken-4">
-      <div class="card-image">
-        <a href="<%- card.page_link %>">
-          <img src="<%- card.image_link %>">
-        </a>
-      </div>
-      <div class="card-content white-text">
-        <span class="card-title"><%- card.title %></span>
-        <p><%- card.desc %></p>
-      </div>
+  <div class="card blue-grey darken-4">
+    <div class="card-image">
+      <a href="<%- card.page_link %>">
+        <img src="<%- card.image_link %>">
+      </a>
+    </div>
+    <div class="card-content white-text">
+      <span class="card-title"><%- card.title %></span>
+      <p><%- card.desc %></p>
     </div>
   </div>
   <% }) %>

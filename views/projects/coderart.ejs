@@ -49,39 +49,30 @@ else
   return rgb(0, 0, 0)</textarea>
   </div>
   <h4>Examples</h4>
-  <div class="masonry mm2">
-    <div class="item" style="margin-bottom: 2px;">
-      <textarea class="code">white = rgb(255, 255, 255)
+  <div class="masonry ml2">
+    <textarea class="code">white = rgb(255, 255, 255)
 xor = (a, b) => a ? !b : b
 up = rel(0, -1); left = rel(-1, 0)
 if ((!x && !y) || xor(eq(up, white), eq(left, white)))
   return white
 else return rgb(0, 0, 0)</textarea>
-    </div>
-    <div class="item" style="margin-bottom: 2px;">
-      <textarea class="code">x=(x/w)-0.5;y=0.5-(y/h)
+    <textarea class="code">x=(x/w)-0.5;y=0.5-(y/h)
 r=Math.sqrt(x**2+y**2)*1.5
 t=Math.atan(y/x) + (x&lt0 ? Math.PI : (y&lt0 ? 2*Math.PI : 0))
 d=2*r+5+Math.cos(3*r*t)
 p=Math.floor((r+d*0.5)*10)/10
 return hsv(p,1,1)</textarea>
-    </div>
-    <div class="item" style="margin-bottom: 2px;">
-      <textarea class="code">x = x-(w/2); y = y-(h/2);
+    <textarea class="code">x = x-(w/2); y = y-(h/2);
 d = x**2 + y**2 + (9**5)*Math.cos(x*y);
 m = (w/2)**2 + (h/2)**2;
 g = Math.floor((d/m)*10)/10;
 return hsv(g,1,1)</textarea>
-    </div>
-    <div class="item" style="margin-bottom: 2px;">
-      <textarea class="code">// Try running this one multiple times
+    <textarea class="code">// Try running this one multiple times
 if (!x && !y) p = 1+Math.random()
 v = Math.sin(p*x*y)
 return v < 0.1 ?
   rgb(255, 247, 48) : cmy(255, 247, 48)</textarea>
-    </div>
-    <div class="item" style="margin-bottom: 2px;">
-      <textarea class="code">if (!x && !y) {
+    <textarea class="code">if (!x && !y) {
  rand = n => Math.floor(Math.random() * n * 2) - n
  randf = () => 2*Math.random() - 1
  randb = () => Math.random() < 0.618
@@ -91,9 +82,7 @@ return v < 0.1 ?
 lin = (m, b) => Math.abs(((h/2)-y)-(m*(x-(w/2))+b))
 v = Math.min(...pts.map(v => lin(...v)))
 return hsv(0,0,v)</textarea>
-    </div>
-    <div class="item" style="margin-bottom: 2px;">
-      <textarea class="code">if (!x && !y) {
+    <textarea class="code">if (!x && !y) {
  rand = n => Math.floor(Math.random()*n)
  pts = Array.from({length:20}, () => [rand(w),rand(h)])
  dst = (x1,y1,x2,y2) => (x1-x2)**2 + (y1-y2)**2
@@ -101,16 +90,13 @@ return hsv(0,0,v)</textarea>
 }
 [d,v] = argmin(pts.map(v => dst(x,y,...v)))
 return hsv(v/20,1,1-d/3e4)</textarea>
-    </div>
-    <div class="item" style="margin-bottom: 2px;">
-      <textarea class="code">if (!x && !y) {
+    <textarea class="code">if (!x && !y) {
  rand = n => Math.floor(Math.random()*n)
  pts = Array.from({length:20}, () => [rand(w),rand(h)])
  dst = (x1,y1,x2,y2) => (x1-x2)**2 + (y1-y2)**2
 }
 v = Math.min(...pts.map(v => dst(x,y,...v)))
 return hsv(1,1,v/1e4)</textarea>
-    </div>
   </div>
   <h4>Provided Functions and Variables</h4>
   <table>
