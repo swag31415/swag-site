@@ -55,6 +55,11 @@ app.get("/", (req, res) => {
       desc: "A no-frills Quill-based in-browser text editor with hotkeys for everything! I find it suprisingly useful to dump information and gather my thoughts",
       page_link: "https://swag31415.github.io/Txty/",
       image_link: "/media/txty.png"
+    }, {
+      title: "Stonkey",
+      desc: "My attempt to gamify stock market predictions. A stock market \"trainer\"",
+      page_link: "/stonkey",
+      image_link: "/media/stonkey.png"
     }]
   })
 })
@@ -72,6 +77,10 @@ app.post("/helpful", (req, res) => {
 app.post("/helpful/update", (req, res) => {
   helpful_api.update(req.body.question)
   res.send("Success")
+})
+
+app.get("/stonkey", (req, res) => {
+  res.render("projects/stonkey", {nav_pages: nav_pages, title: "Stonkey", image_link: "/media/stonkey.png"})
 })
 
 basic_projects.forEach((page) => app.get("/"+page.page_link, (req, res) => {
