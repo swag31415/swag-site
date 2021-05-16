@@ -1,4 +1,13 @@
 <%- include("../inserts/head.ejs") %>
 <h1>Stonkey</h1>
+<div class="row">
+  <div class="input-field col s6 m4">
+    <input type="text" id="sym">
+    <label for="sym">Symbol</label>
+  </div>
+  <div class="input-field col s6 m4">
+    <button id="play" class="btn">Play</button>
+  </div>
+</div>
 <canvas id="bana" width="1000" height="200"></canvas>
 <%- include("../inserts/foot.ejs", {scriptfile:"stonkey.js"}) %>
