@@ -1,12 +1,9 @@
-params = 
-fetch("https://www.alphavantage.co/query?" + new URLSearchParams({
-  function: "TIME_SERIES_INTRADAY_EXTENDED",
-  symbol: "IBM",
-  interval: "15min",
-  slice: "year1month1",
-  apikey: "demo"
-})).then(resp => resp.text())
-.then(data => data.split('\n').slice(1,-1).map(row => parseFloat(row.split(',')[1])).reverse())
+fetch("/stonkey/api?" + new URLSearchParams({sym: "IBM"}))
+.then(resp => resp.text())
+.then(data => {
+  if (data.length < 300) throw data // If it's really short something's up
+  return data.split('\n').slice(1,-1).map(row => parseFloat(row.split(',')[1])).reverse()
+})
 .then(arr => {
   can = document.getElementById("bana");
   // Normalize
@@ -21,4 +18,8 @@ fetch("https://www.alphavantage.co/query?" + new URLSearchParams({
     ctx.lineTo(x,v)
   })
   ctx.stroke()
+})
+.catch(err => {
+  console.log(err)
+  alert("there was an error")
 })
