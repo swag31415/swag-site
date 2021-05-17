@@ -16,8 +16,13 @@ async function get_data(symbol) {
   }, {})
 }
 
-async function is_choose_up() {
-  $("#up,#down").show()
+const line = document.getElementById("line")
+const [width, height] = [300, 100]
+
+async function is_choose_up(y_val) {
+  prop = 100 * (y_val / height)
+  $("#up").css("height", 100 - prop + '%').show()
+  $("#down").css("height", prop + '%').show()
   icu = await new Promise(res => {
     $("#up").on("click.icu", () => res(true))
     $("#down").on("click.icu", () => res(false))
@@ -26,34 +31,35 @@ async function is_choose_up() {
   return icu
 }
 
-const line = document.getElementById("line")
-const [width, height] = [300, 100]
+function draw(arr, tlen) {
+  [min, max] = [Math.min(...arr), Math.max(...arr)]
+  x_scale = width / tlen
+  y_scale = height / (max - min)
+  points = arr.reduce((s, v, i) => s + `${i * x_scale} ${height - (v - min) * y_scale} `, "")
+  line.setAttribute("points", points)
+  // Return the last y value
+  return (arr[arr.length - 1] - min) * y_scale
+}
 
 async function play(arr, hint, step) {
-  // Normalize values
-  [min, max] = [Math.min(...arr), Math.max(...arr)]
-  arr = arr.map(v => height - ((v - min) * (height / (max - min))))
   // Clear
   points = ""
   line.setAttribute("points", points)
   // Render and play
   hinted = false
-  for (let i = 0; i < arr.length; i++) {
-    x = (i + 1) * (width / arr.length)
-    // Add the point
-    points += `${x} ${arr[i]} `
-    line.setAttribute("points", points)
+  for (let i = 1; i <= arr.length; i++) {
+    // Draw and get last y value
+    last_y = draw(arr.slice(0, i), arr.length)
     // Check for hint stage
     if (!hinted && (i / arr.length) > (hint / 100)) {
       pval = arr[i]
-      was_up = await is_choose_up()
+      was_up = await is_choose_up(last_y)
       hinted = true
     }
     // Animation
     await new Promise(r => setTimeout(r, step))
   }
-  // We use less than becuase y-axis grows down for images
-  return was_up == (arr[arr.length-1] < pval)
+  return was_up == (arr[arr.length-1] > pval)
 }
 
 $("#play").click(async () => {
