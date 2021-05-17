@@ -85,7 +85,7 @@ app.get("/stonkey/api", (req, res) => {
   https.get("https://www.alphavantage.co/query?" + new URLSearchParams({
     function: "TIME_SERIES_INTRADAY_EXTENDED",
     symbol: req.query.sym,
-    interval: "1min",
+    interval: "5min",
     slice: `year${rand(2)}month${rand(12)}`,
     apikey: process.env.STONKEY_KEY || "demo"
   }), resp => resp.pipe(res))
