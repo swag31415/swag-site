@@ -18,6 +18,7 @@ async function get_data(symbol) {
 
 const line = document.getElementById("line")
 const [width, height] = [300, 100]
+const pad = 10
 
 async function is_choose_up(y_val) {
   prop = 100 * (y_val / height)
@@ -34,11 +35,11 @@ async function is_choose_up(y_val) {
 function draw(arr, tlen) {
   [min, max] = [Math.min(...arr), Math.max(...arr)]
   x_scale = width / tlen
-  y_scale = height / (max - min)
-  points = arr.reduce((s, v, i) => s + `${i * x_scale} ${height - (v - min) * y_scale} `, "")
+  y_scale = (height - 2*pad) / (max - min)
+  points = arr.reduce((s, v, i) => s + `${i * x_scale} ${height - pad - (v - min) * y_scale} `, "")
   line.setAttribute("points", points)
   // Return the last y value
-  return (arr[arr.length - 1] - min) * y_scale
+  return pad + (arr[arr.length - 1] - min) * y_scale
 }
 
 async function play(arr, hint, step) {
@@ -60,6 +61,11 @@ async function play(arr, hint, step) {
     await new Promise(r => setTimeout(r, step))
   }
   return was_up == (arr[arr.length-1] > pval)
+}
+
+function update_points(score, round, n_rounds) {
+  $("#score").text(`Current Score: ${score}/${round}`)
+  $("#progress").css("width", 100 * (round/n_rounds) + '%')
 }
 
 $("#play").click(async () => {
@@ -89,8 +95,10 @@ $("#play").click(async () => {
   $("#dloader").hide()
   // Play
   score = 0
-  for (const arr of queue) {
-    score += await play(arr, hint, 50)
+  update_points(0, 0, queue.length)
+  for (let i = 0; i < queue.length; i++) {
+    score += await play(queue[i], hint, 50)
+    update_points(score, i+1, queue.length)
   }
   console.log(`final score is ${score}`)
 })

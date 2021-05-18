@@ -1,5 +1,6 @@
 <%- include("../inserts/head.ejs") %>
 <h1>Stonkey</h1>
+<p>Will it go <span style="color: #2f2;">up</span> or <span style="color: #f22;">down</span> kids? clicky clicky 😉 u know what 2 do 😃</p>
 <div id="inputs" class="row">
   <div class="input-field col s12 m6 l5">
     <input type="text" id="sym">
@@ -16,17 +17,23 @@
 <div id="dloader" class="progress center" style="display: none;">
   <div class="indeterminate"></div>
 </div>
-<div id="game" style="display: none; position: relative;">
-  <svg viewbox="0 0 300 100">
-    <g style="stroke: #0001;">
-      <% for (let i = 10; i < 100; i += 10) { %>
-      <line x1="0" y1="<%-i%>" x2="300" y2="<%-i%>"></line>
-      <% } %>
-    <g>
-    <polyline id="line" points="" style="stroke: #000; fill: none;"></polyline>
-  </svg>
-  <style>.chooser {position: absolute; right: 0; cursor: pointer;}</style>
-  <div id="up" class="chooser" style="top: 0; background: #2f24; display: none;"></div>
-  <div id="down" class="chooser" style="bottom: 0; background: #f224; display: none;"></div>
+<div id="game" style="display: none;">
+  <div style="position: relative;">
+    <svg viewbox="0 0 300 100">
+      <g style="stroke: #0001;">
+        <% for (let i = 10; i < 100; i += 10) { %>
+        <line x1="0" y1="<%-i%>" x2="300" y2="<%-i%>"></line>
+        <% } %>
+      <g>
+      <polyline id="line" points="" style="stroke: #000; fill: none;"></polyline>
+    </svg>
+    <style>.chooser {position: absolute; right: 0; cursor: pointer;}</style>
+    <div id="up" class="chooser" style="top: 0; background: #2f24; display: none;"></div>
+    <div id="down" class="chooser" style="bottom: 0; background: #f224; display: none;"></div>
+  </div>
+  <div class="progress">
+    <div id="progress" class="determinate" style="width: 0%"></div>
+  </div>
+  <p id="score"></p>
 </div>
 <%- include("../inserts/foot.ejs", {scriptfile:"stonkey.js"}) %>
