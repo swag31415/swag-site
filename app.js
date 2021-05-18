@@ -7,6 +7,8 @@ const app = express()
   .use(bodyParser.json())
 const port = process.env.PORT || 3000
 
+const https = require("https")
+
 const nav_pages = [{name: "Home", link: "/"}]
 const basic_projects = [{
   title: "Coder Art",
@@ -36,6 +38,10 @@ const basic_projects = [{
   title: "The Game",
   desc: "A simulation of how The Game spreads",
   page_link: "the_game"
+}, {
+  title: "Stonkey",
+  desc: "My attempt to gamify stock market predictions. A stock market \"trainer\"",
+  page_link: "stonkey"
 }]
 
 basic_projects.forEach(v => v.image_link = `/media/${v.page_link}.png`)
@@ -72,6 +78,17 @@ app.post("/helpful", (req, res) => {
 app.post("/helpful/update", (req, res) => {
   helpful_api.update(req.body.question)
   res.send("Success")
+})
+
+const rand = (n) => Math.ceil(n*Math.random())
+app.get("/stonkey/api", (req, res) => {
+  https.get("https://www.alphavantage.co/query?" + new URLSearchParams({
+    function: "TIME_SERIES_INTRADAY_EXTENDED",
+    symbol: req.query.sym,
+    interval: "5min",
+    slice: `year${rand(2)}month${rand(12)}`,
+    apikey: process.env.STONKEY_KEY || "demo"
+  }), resp => resp.pipe(res))
 })
 
 basic_projects.forEach((page) => app.get("/"+page.page_link, (req, res) => {
