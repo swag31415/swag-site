@@ -61,6 +61,11 @@ app.get("/", (req, res) => {
       desc: "A no-frills Quill-based in-browser text editor with hotkeys for everything! I find it suprisingly useful to dump information and gather my thoughts",
       page_link: "https://swag31415.github.io/Txty/",
       image_link: "/media/txty.png"
+    }, {
+      title: "Targroot",
+      desc: "A webapp I made to assist Edgewood Target Team Members in the Electronics Department with their day-to-day activities",
+      page_link: "https://github.com/swag31415/Targroot",
+      image_link: "/media/targroot.png"
     }]
   })
 })
