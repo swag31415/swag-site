@@ -100,3 +100,26 @@ $("#sort_text").click(e => {
       )
     })
 })
+
+function site_cmp(site1, site2) {
+  return new Promise(res => {
+    $("#frame1").attr("src", site1)
+    $("#frame2").attr("src", site2)
+    $("#site1").click(() => res(true))
+    $("#site2").click(() => res(false))
+  })
+}
+
+$("#site_questions,#site_results").hide()
+
+$("#sort_sites").click(e => {
+  $("#site_results").hide().children("a").remove()
+  $("#site_questions").show()
+  fj_sort($("#in_sites").val().split("\n"), site_cmp)
+    .then(v => {
+      $("#site_questions").hide()
+      $("#site_results").show().append(
+        v.map(v2 => `<a href="${v2}" class="flow-text hoverable" style="display: block;">${v2}</a>`)
+      )
+    })
+})
