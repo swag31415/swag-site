@@ -23,6 +23,10 @@ const basic_projects = [{
   desc: "My first project when I learned nim, now rewritten in javascript!",
   page_link: "hangman"
 }, {
+  title: "Resume Logger",
+  desc: "Log all your Resume data with this neat little interface",
+  page_link: "resume"
+}, {
   title: "Jugs",
   desc: "A Javascript port of a short program I made to solve Jug Problems",
   page_link: "jugs"
