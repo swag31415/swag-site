@@ -214,8 +214,9 @@
     <samp id="guess"></samp>
   </p>
   <div id="letters" class="row">
-    <% [..."abcdefghijklmnopqrstuvwxyz"].forEach(l => { %>
-    <button class="btn row letter"><%- l %></button>
+    <% colors = ["red", "oramge", "green", "teal", "cyan", "blue", "indigo", "purple"] %>
+    <% [..."abcdefghijklmnopqrstuvwxyz"].forEach((l, i) => { %>
+    <button class="btn row letter <%- colors[i % colors.length] %>"><%- l %></button>
     <% }) %>
     <a href="hangman" class="btn red right">Reset</a>
   </div>
