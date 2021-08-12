@@ -54,17 +54,6 @@ function extend_quad(quad, x, y) {
   quad.setAttributeNS(null, "d", d)
 }
 
-// const curv = add_quad(true, "fill: none; stroke: #fff")
-// disp.addEventListener("mouseup", e => {
-//   extend_quad(curv, e.offsetX, e.offsetY)
-// })
-
-// const poly = add_poly(true, "fill: none; stroke: #fff")
-
-// disp.addEventListener("mouseup", e => {
-//   extend_poly(poly, e.offsetX, e.offsetY)
-// })
-
 const def_style = "fill: none; stroke: #fff"
 var elem = null
 var extend = null
@@ -81,17 +70,6 @@ document.addEventListener("keyup", e => {
     console.log(e.shiftKey)
     return false
   }
-
-  // if (e.key == "s") {
-  //   extend = extend_quad
-  //   elem = add_quad(e.altKey, def_style)
-  // } else if (e.key == "z") {
-  //   extend = extend_poly
-  //   elem = add_poly(e.altKey, def_style)
-  // } else if (e.key == "Escape") {
-  //   extend = null
-  //   elem = null
-  // }
 })
 
 document.addEventListener("mouseup", e => {
