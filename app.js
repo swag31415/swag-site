@@ -27,6 +27,10 @@ const basic_projects = [{
   desc: "A Javascript port of a short program I made to solve Jug Problems",
   page_link: "jugs"
 }, {
+  title: "Spliner",
+  desc: "A vector animation tool",
+  page_link: "spliner"
+}, {
   title: "Sorter",
   desc: "Use the Ford-Johnson aglorithm and YOUU to sort basically anything!",
   page_link: "sorter"
