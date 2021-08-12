@@ -1,9 +1,16 @@
 paper.install(window)
-const disp = document.getElementById("disp")
-paper.setup(disp)
-let path = new Path()
-path.strokeColor = "black"
-let start = new Point(100,100)
-path.moveTo(start)
-path.lineTo(start.add([200,-50]))
+paper.setup("disp")
+
+const tool = new Tool()
+var cur_path
+
+tool.onMouseDown = e => {
+  cur_path = new Path()
+  cur_path.strokeColor = "white"
+  cur_path.add(e.point)
+}
+
+tool.onMouseDrag = e => {
+  cur_path.add(e.point)
+}
 view.draw()
