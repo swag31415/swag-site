@@ -1,30 +1,39 @@
 paper.install(window)
 paper.setup("disp")
 
-var cur_path, shad_path
-
 const main_tool = new Tool()
 const draw_tool = new Tool()
 
+const paths = []
+const last = a => a[a.length - 1]
+
 main_tool.onMouseDown = e => {
   // Need two for the onMouseMove stuff
-  cur_path = new Path([e.point, e.point])
-  cur_path.strokeColor = "white"
+  paths.push(new Path([e.point, e.point]))
+  last(paths).strokeColor = "white"
   draw_tool.activate()
+}
+
+main_tool.onKeyUp = e => {
+  if (e.modifiers.control && e.key == "z") {
+    paths.pop().remove()
+  }
 }
 
 draw_tool.onKeyUp = e => {
   if (e.key == "escape") {
-    cur_path.lastSegment.remove()
+    last(paths).lastSegment.remove()
     main_tool.activate()
+  } else if (e.modifiers.control && e.key == "z") {
+    last(paths).lastSegment.remove()
   }
 }
 
 draw_tool.onMouseDown = e => {
-  cur_path.add(e.point)
+  last(paths).add(e.point)
 }
 
 draw_tool.onMouseMove = e => {
-  cur_path.lastSegment.point = e.point
-  cur_path.smooth({type: 'continuous'})
+  last(paths).lastSegment.point = e.point
+  last(paths).smooth({type: 'continuous'})
 }
