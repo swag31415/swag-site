@@ -1,5 +1,5 @@
 <% plugins = ["paperjs"] %>
 <%- include("../inserts/head.ejs") %>
 <h1>Spliner</h1>
-<canvas id="disp" width="1000px" height="1000px" style="background: black;"></canvas>
+<canvas id="disp" class="black" style="width: 100%" resize></canvas>
 <%- include("../inserts/foot.ejs", {plugins:plugins, scriptfile:"spliner.js"}) %>
