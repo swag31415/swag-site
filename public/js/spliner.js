@@ -3,6 +3,7 @@ paper.setup("disp")
 
 const main_tool = new Tool()
 const draw_tool = new Tool()
+const edit_tool = new Tool()
 
 const paths = []
 const last = a => a[a.length - 1]
@@ -17,6 +18,10 @@ main_tool.onMouseDown = e => {
 main_tool.onKeyUp = e => {
   if (e.modifiers.control && e.key == "z") {
     paths.pop().remove()
+  } else if (e.key == "e") {
+    paths.forEach(path => path.fullySelected = true)
+    edit_tool.activate()
+    M.toast({html: "<span>Switched to <strong>Edit</strong> mode</span>"})
   }
 }
 
@@ -36,4 +41,12 @@ draw_tool.onMouseDown = e => {
 draw_tool.onMouseMove = e => {
   last(paths).lastSegment.point = e.point
   last(paths).smooth({type: 'continuous'})
+}
+
+edit_tool.onKeyUp = e => {
+  if (e.key == "e") {
+    paths.forEach(path => path.fullySelected = false)
+    main_tool.activate()
+    M.toast({html: "<span>Switched back to <strong>Draw</strong> mode</span>"})
+  }
 }
