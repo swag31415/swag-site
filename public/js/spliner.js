@@ -16,7 +16,7 @@ function revert() {
 
 const main_tool = new Tool({
   onActivate: () => project.activeLayer.selected = false,
-  onMouseDown: e => draw_tool.start(e.point),
+  onMouseDown: e => e.modifiers.shift ? text_tool.start(e.point) : draw_tool.start(e.point),
   onKeyUp: function (e) {
     if (e.modifiers.control && e.key == "z") revert()
     else if (e.key == "e") {
@@ -118,11 +118,11 @@ const paste_tool = new Tool({
     this.prev_tool = prev_tool
     this.activate()
     navigator.clipboard.readText()
-    .then(t => this.paste = new Path().importJSON(t))
-    .catch(e => {
-      M.toast({html: "<span>Error parsing clipboard</span>", classes: "red"})
-      main_tool.activate()
-    })
+      .then(t => this.paste = new Path().importJSON(t))
+      .catch(e => {
+        M.toast({ html: "<span>Error parsing clipboard</span>", classes: "red" })
+        main_tool.activate()
+      })
   },
   onMouseMove: function (e) {
     if (this.paste) this.paste.position = e.point
@@ -131,5 +131,22 @@ const paste_tool = new Tool({
     this.paste.position = e.point
     this.paste = null
     this.prev_tool.activate()
+  }
+})
+
+const text_tool = new Tool({
+  start: function (point) {
+    save()
+    this.text = new PointText(point)
+    this.text.fillColor = "white"
+    this.activate()
+  },
+  onKeyDown: function (e) {
+    if (e.key == "escape") main_tool.activate()
+    else if (e.key == "backspace" || e.key == "delete")
+      this.text.content = this.text.content.slice(0, -1)
+    else if (e.modifiers.control && e.key == "v")
+      navigator.clipboard.readText().then(t => this.text.content += t)
+    else this.text.content += e.character
   }
 })
