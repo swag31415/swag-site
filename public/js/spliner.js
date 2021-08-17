@@ -1,6 +1,19 @@
 paper.install(window)
 paper.setup("disp")
 
+let history = []
+function save() {
+  history.push(project.exportJSON())
+  if (history.length > 20) history.shift()
+}
+function revert() {
+  if (history.length > 0) {
+    project.clear()
+    project.importJSON(history.pop())
+    project.activeLayer.selected = false
+  }
+}
+
 const main_tool = new Tool()
 const draw_tool = new Tool()
 const edit_tool = new Tool()
@@ -9,6 +22,7 @@ const paths = []
 const last = a => a[a.length - 1]
 
 main_tool.onMouseDown = e => {
+  save()
   // Need two for the onMouseMove stuff
   paths.push(new Path([e.point, e.point]))
   last(paths).strokeColor = "white"
@@ -16,9 +30,8 @@ main_tool.onMouseDown = e => {
 }
 
 main_tool.onKeyUp = e => {
-  if (e.modifiers.control && e.key == "z") {
-    paths.pop().remove()
-  } else if (e.key == "e") {
+  if (e.modifiers.control && e.key == "z") revert()
+  else if (e.key == "e") {
     edit_tool.activate()
     M.toast({html: "<span>Switched to <strong>Edit</strong> mode</span>"})
   }
@@ -30,6 +43,8 @@ draw_tool.onKeyUp = e => {
     main_tool.activate()
   } else if (e.modifiers.control && e.key == "z") {
     last(paths).lastSegment.remove()
+    // If we deleted the whole line
+    if (!last(paths).lastSegment) main_tool.activate()
   }
 }
 
@@ -43,7 +58,9 @@ draw_tool.onMouseMove = e => {
 }
 
 edit_tool.onKeyUp = e => {
-  if (e.key == "e") {
+  if (e.modifiers.control && e.key == "z") revert()
+  else if (e.key == "e") {
+    project.activeLayer.selected = false
     main_tool.activate()
     M.toast({html: "<span>Switched back to <strong>Draw</strong> mode</span>"})
   }
@@ -59,6 +76,7 @@ var target_seg = null
 edit_tool.onMouseDown = e => {
   let hit = project.hitTest(e.point, hit_opts)
   if (hit) {
+    save()
 		target_path = hit.item
 		if (hit.type == "stroke") {
 			target_seg = target_path.insert(hit.location.index + 1, e.point)
