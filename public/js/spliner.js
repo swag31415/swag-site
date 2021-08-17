@@ -59,15 +59,6 @@ draw_tool.onMouseMove = e => {
   last(paths).smooth({type: 'continuous'})
 }
 
-edit_tool.onKeyUp = e => {
-  if (e.modifiers.control && e.key == "z") revert()
-  else if (e.key == "e") {
-    project.activeLayer.selected = false
-    main_tool.activate()
-    M.toast({html: "<span>Switched back to <strong>Draw</strong> mode</span>"})
-  }
-}
-
 const hit_opts = {
   segments: true,
   stroke: true,
@@ -89,10 +80,11 @@ edit_tool.onMouseDown = e => {
   }
 }
 
+var hov_hit = null
 edit_tool.onMouseMove = e => {
 	project.activeLayer.selected = false
-  let hit = project.hitTest(e.point, hit_opts)
-	if (hit) hit.item.selected = true
+  hov_hit = project.hitTest(e.point, hit_opts)
+	if (hov_hit) hov_hit.item.selected = true
 }
 
 edit_tool.onMouseDrag = e => {
@@ -104,4 +96,17 @@ edit_tool.onMouseDrag = e => {
 edit_tool.onMouseUp = e => {
   target_path = null
   target_seg = null
+}
+
+edit_tool.onKeyUp = e => {
+  if (e.modifiers.control && e.key == "z") revert()
+  else if (e.key == "e") {
+    project.activeLayer.selected = false
+    main_tool.activate()
+    M.toast({html: "<span>Switched back to <strong>Draw</strong> mode</span>"})
+  } else if (e.key == "delete") {
+    save()
+    if (hov_hit.segment) hov_hit.segment.remove()
+    else hov_hit.item.remove()
+  }
 }
