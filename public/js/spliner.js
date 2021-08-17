@@ -15,12 +15,15 @@ function revert() {
 }
 
 const main_tool = new Tool({
+  onActivate: () => project.activeLayer.selected = false,
   onMouseDown: e => draw_tool.start(e.point),
-  onKeyUp: e => {
+  onKeyUp: function (e) {
     if (e.modifiers.control && e.key == "z") revert()
     else if (e.key == "e") {
       edit_tool.activate()
       M.toast({ html: "<span>Switched to <strong>Edit</strong> mode</span>" })
+    } else if (e.modifiers.control && e.key == "v") {
+      paste_tool.start(this)
     }
   }
 })
@@ -61,11 +64,6 @@ const edit_tool = new Tool({
     tolerance: 5
   },
   onMouseDown: function (e) {
-    if (this.paste) {
-      this.paste.position = e.point
-      this.paste = null
-      return null
-    }
     let hit = project.hitTest(e.point, this.hit_opts)
     if (hit) {
       save()
@@ -79,10 +77,6 @@ const edit_tool = new Tool({
     }
   },
   onMouseMove: function (e) {
-    if (this.paste) {
-      this.paste.position = e.point
-      return null
-    }
     project.activeLayer.selected = false
     this.hov_hit = project.hitTest(e.point, this.hit_opts)
     if (this.hov_hit) this.hov_hit.item.selected = true
@@ -99,7 +93,6 @@ const edit_tool = new Tool({
   onKeyUp: function (e) {
     if (e.modifiers.control && e.key == "z") revert()
     else if (e.key == "e") {
-      project.activeLayer.selected = false
       main_tool.activate()
       M.toast({ html: "<span>Switched back to <strong>Draw</strong> mode</span>" })
     } else if (e.key == "delete") {
@@ -109,11 +102,32 @@ const edit_tool = new Tool({
     } else if (e.modifiers.control && e.key == "c") {
       navigator.clipboard.writeText(this.hov_hit.item.exportJSON())
     } else if (e.modifiers.control && e.key == "v") {
-      save()
-      navigator.clipboard.readText().then(t => this.paste = new Path().importJSON(t))
+      paste_tool.start(this)
     } else if (e.modifiers.control && e.key == "x") {
       navigator.clipboard.writeText(this.hov_hit.item.exportJSON())
       this.hov_hit.item.remove()
     }
+  }
+})
+
+const paste_tool = new Tool({
+  start: function (prev_tool) {
+    save()
+    this.prev_tool = prev_tool
+    this.activate()
+    navigator.clipboard.readText()
+    .then(t => this.paste = new Path().importJSON(t))
+    .catch(e => {
+      M.toast({html: "<span>Error parsing clipboard</span>", classes: "red"})
+      main_tool.activate()
+    })
+  },
+  onMouseMove: function (e) {
+    if (this.paste) this.paste.position = e.point
+  },
+  onMouseDown: function (e) {
+    this.paste.position = e.point
+    this.paste = null
+    this.prev_tool.activate()
   }
 })
