@@ -19,7 +19,6 @@ main_tool.onKeyUp = e => {
   if (e.modifiers.control && e.key == "z") {
     paths.pop().remove()
   } else if (e.key == "e") {
-    paths.forEach(path => path.fullySelected = true)
     edit_tool.activate()
     M.toast({html: "<span>Switched to <strong>Edit</strong> mode</span>"})
   }
@@ -45,7 +44,6 @@ draw_tool.onMouseMove = e => {
 
 edit_tool.onKeyUp = e => {
   if (e.key == "e") {
-    paths.forEach(path => path.fullySelected = false)
     main_tool.activate()
     M.toast({html: "<span>Switched back to <strong>Draw</strong> mode</span>"})
   }
@@ -69,6 +67,12 @@ edit_tool.onMouseDown = e => {
       target_seg = hit.segment
     }
   }
+}
+
+edit_tool.onMouseMove = e => {
+	project.activeLayer.selected = false
+  let hit = project.hitTest(e.point, hit_opts)
+	if (hit) hit.item.selected = true
 }
 
 edit_tool.onMouseDrag = e => {
