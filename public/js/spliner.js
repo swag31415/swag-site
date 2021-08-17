@@ -45,6 +45,8 @@ draw_tool.onKeyUp = e => {
     last(paths).lastSegment.remove()
     // If we deleted the whole line
     if (!last(paths).lastSegment) main_tool.activate()
+  } else if (e.key == "space") {
+    last(paths).closed = !last(paths).closed
   }
 }
 
