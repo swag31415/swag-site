@@ -95,17 +95,19 @@ const edit_tool = new Tool({
     else if (e.key == "e") {
       main_tool.activate()
       M.toast({ html: "<span>Switched back to <strong>Draw</strong> mode</span>" })
-    } else if (e.key == "delete") {
-      save()
-      if (this.hov_hit.segment) this.hov_hit.segment.remove()
-      else this.hov_hit.item.remove()
-    } else if (e.modifiers.control && e.key == "c") {
-      navigator.clipboard.writeText(this.hov_hit.item.exportJSON())
-    } else if (e.modifiers.control && e.key == "v") {
-      paste_tool.start(this)
-    } else if (e.modifiers.control && e.key == "x") {
-      navigator.clipboard.writeText(this.hov_hit.item.exportJSON())
-      this.hov_hit.item.remove()
+    } else if (this.hov_hit) {
+      if (e.key == "delete") {
+        save()
+        if (this.hov_hit.segment) this.hov_hit.segment.remove()
+        else this.hov_hit.item.remove()
+      } else if (e.modifiers.control && e.key == "c") {
+        navigator.clipboard.writeText(this.hov_hit.item.exportJSON())
+      } else if (e.modifiers.control && e.key == "v") {
+        paste_tool.start(this)
+      } else if (e.modifiers.control && e.key == "x") {
+        navigator.clipboard.writeText(this.hov_hit.item.exportJSON())
+        this.hov_hit.item.remove()
+      }
     }
   }
 })
