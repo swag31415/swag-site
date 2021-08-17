@@ -66,7 +66,13 @@ const hit_opts = {
 }
 var target_path = null
 var target_seg = null
+var paste = null
 edit_tool.onMouseDown = e => {
+  if (paste) {
+    paste.position = e.point
+    paste = null
+    return null
+  }
   let hit = project.hitTest(e.point, hit_opts)
   if (hit) {
     save()
@@ -82,6 +88,10 @@ edit_tool.onMouseDown = e => {
 
 var hov_hit = null
 edit_tool.onMouseMove = e => {
+  if (paste) {
+    paste.position = e.point
+    return null
+  }
 	project.activeLayer.selected = false
   hov_hit = project.hitTest(e.point, hit_opts)
 	if (hov_hit) hov_hit.item.selected = true
@@ -108,5 +118,13 @@ edit_tool.onKeyUp = e => {
     save()
     if (hov_hit.segment) hov_hit.segment.remove()
     else hov_hit.item.remove()
+  } else if (e.modifiers.control && e.key == "c") {
+    navigator.clipboard.writeText(hov_hit.item.exportJSON())
+  } else if (e.modifiers.control && e.key == "v") {
+    save()
+    navigator.clipboard.readText().then(t => paste = new Path().importJSON(t))
+  } else if (e.modifiers.control && e.key == "x") {
+    navigator.clipboard.writeText(hov_hit.item.exportJSON())
+    hov_hit.item.remove()
   }
 }
