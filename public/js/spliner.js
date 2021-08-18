@@ -1,5 +1,38 @@
+const disp = document.getElementById("disp")
 paper.install(window)
-paper.setup("disp")
+paper.setup(disp)
+
+const dock = document.getElementById("dock")
+function spawn_picker(name, initial_value, on_change) {
+  // Create the button
+  let inp = document.createElement("button")
+  inp.className = "btn"
+  inp.innerText = name
+  // Attach the button
+  dock.appendChild(inp)
+  // Attach the picker
+  let picker = new Picker(inp)
+  picker.onChange = col => {
+    let [r,g,b,a] = col.rgba
+    // Contrasting text
+    inp.style.color = r+g+b < 383 ? "white" : "black"
+    // Checkerboard pattern for transparency
+    inp.style.background = `repeating-conic-gradient(rgba(128,128,128,${1-a}) 0% 25%, transparent 0% 50%) 50% / 10px 10px`
+    // Set the colors
+    inp.style["background-color"] = col.rgbaString
+    // Push the event along
+    if (on_change) on_change(col)
+  }
+  if (initial_value) picker.setColor(initial_value, false)
+  // Add a better remove function
+  picker.remove = function () {
+    inp.remove()
+    this.destroy()
+  }
+  return picker
+}
+
+const background_picker = spawn_picker("background color", "000", c => disp.style["background-color"] = c.hex)
 
 let history = []
 function save() {
@@ -29,12 +62,26 @@ const main_tool = new Tool({
 })
 
 const draw_tool = new Tool({
+  def_stroke: "#fff",
+  def_fill: "#fff0",
   start: function (point) {
     save()
     // Need two for the onMouseMove stuff
     this.path = new Path([point, point])
-    this.path.strokeColor = "white"
+    // Add color controls
+    this.stroke_picker = spawn_picker("stroke color", this.def_stroke, c => {
+      draw_tool.def_stroke = c.hex
+      draw_tool.path.strokeColor = c.hex
+    })
+    this.fill_picker = spawn_picker("fill color", this.def_fill, c => {
+      draw_tool.def_fill = c.hex
+      draw_tool.path.fillColor = c.hex
+    })
     this.activate()
+  },
+  onDeactivate: function () {
+    this.stroke_picker.remove()
+    this.fill_picker.remove()
   },
   onKeyUp: function (e) {
     if (e.key == "escape") {

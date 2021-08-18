@@ -1,5 +1,6 @@
-<% plugins = ["paperjs"] %>
-<%- include("../inserts/head.ejs") %>
+<% plugins = ["paperjs", "vanilla-picker"] %>
+<%- include("../inserts/head.ejs", {plugins:plugins}) %>
 <h1>Spliner</h1>
-<canvas id="disp" class="black" style="width: 100%" resize></canvas>
+<canvas id="disp" style="width: 100%" resize></canvas>
+<div id="dock" class="row"></div>
 <%- include("../inserts/foot.ejs", {plugins:plugins, scriptfile:"spliner.js"}) %>
