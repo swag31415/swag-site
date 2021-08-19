@@ -14,7 +14,6 @@ function spawn_input(name, attrs) {
   dock.appendChild(div)
   return [div, inp]
 }
-
 function spawn_picker(name, initial_value, on_change) {
   let [div, inp] = spawn_input(name, {type: "text"})
   // Attach the picker
@@ -35,7 +34,6 @@ function spawn_picker(name, initial_value, on_change) {
   }
   return picker
 }
-
 function spawn_slider(name, initial_value, on_change) {
   let [div, inp] = spawn_input(name, {
     type: "number",
@@ -53,24 +51,39 @@ function spawn_slider(name, initial_value, on_change) {
 const background_picker = spawn_picker("background color", "000", c => disp.style["background-color"] = c.hex)
 
 let history = []
+let futory = []
 function save() {
   history.push(project.exportJSON())
   if (history.length > 20) history.shift()
+  futory = []
 }
-function revert() {
+function undo() {
   if (history.length > 0) {
+    futory.push(project.exportJSON())
     project.clear()
     project.importJSON(history.pop())
     project.activeLayer.selected = false
   }
+}
+function redo() {
+  if (futory.length > 0) {
+    history.push(project.exportJSON())
+    project.clear()
+    project.importJSON(futory.pop())
+    project.activeLayer.selected = false
+  }
+}
+function check_undo(ctrl, key) {
+  if (ctrl && key == "z") undo()
+  else if (ctrl && key == "y") redo()
 }
 
 const main_tool = new Tool({
   onActivate: () => project.activeLayer.selected = false,
   onMouseDown: e => e.modifiers.shift ? text_tool.start(e.point) : draw_tool.start(e.point),
   onKeyUp: function (e) {
-    if (e.modifiers.control && e.key == "z") revert()
-    else if (e.key == "e") {
+    check_undo(e.modifiers.control, e.key)
+    if (e.key == "e") {
       edit_tool.activate()
       M.toast({ html: "<span>Switched to <strong>Edit</strong> mode</span>" })
     } else if (e.modifiers.control && e.key == "v") {
@@ -162,10 +175,12 @@ const edit_tool = new Tool({
     this.target_seg = null
   },
   onKeyUp: function (e) {
-    if (e.modifiers.control && e.key == "z") revert()
-    else if (e.key == "e") {
+    check_undo(e.modifiers.control, e.key)
+    if (e.key == "e") {
       main_tool.activate()
       M.toast({ html: "<span>Switched back to <strong>Draw</strong> mode</span>" })
+    } else if (e.modifiers.control && e.key == "v") {
+      paste_tool.start(this)
     } else if (this.hov_hit) {
       if (e.key == "delete") {
         save()
@@ -177,8 +192,6 @@ const edit_tool = new Tool({
         navigator.clipboard.writeText(this.hov_hit.item.exportJSON())
         this.hov_hit.item.remove()
       }
-    } else if (e.modifiers.control && e.key == "v") {
-      paste_tool.start(this)
     }
   }
 })
