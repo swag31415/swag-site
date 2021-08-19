@@ -4,29 +4,35 @@ paper.setup(disp)
 
 const dock = document.getElementById("dock")
 function spawn_picker(name, initial_value, on_change) {
-  // Create the button
-  let inp = document.createElement("button")
-  inp.className = "btn"
-  inp.innerText = name
-  // Attach the button
-  dock.appendChild(inp)
+  // Create the input
+  let inp = document.createElement("input")
+  inp.type = "text"
+  // Attach a random id
+  inp.id = (Math.random() + 1).toString(36).substring(7)
+  // Create a label
+  let label = document.createElement("label")
+  label.className = "active"
+  label.for = inp.id
+  label.innerText = name
+  // Wrap the input and label in a div
+  let div = document.createElement("div")
+  div.className = "input-field col s4 m2"
+  div.append(inp, label)
+  // Attach the div
+  dock.appendChild(div)
   // Attach the picker
-  let picker = new Picker(inp)
+  let picker = new Picker(div)
+  inp.addEventListener("focus", () => picker.show())
   picker.onChange = col => {
-    let [r,g,b,a] = col.rgba
-    // Contrasting text
-    inp.style.color = r+g+b < 383 ? "white" : "black"
-    // Checkerboard pattern for transparency
-    inp.style.background = `repeating-conic-gradient(rgba(128,128,128,${1-a}) 0% 25%, transparent 0% 50%) 50% / 10px 10px`
-    // Set the colors
-    inp.style["background-color"] = col.rgbaString
+    inp.style["border-color"] = col.rgbaString
+    inp.value = col.hex
     // Push the event along
     if (on_change) on_change(col)
   }
   if (initial_value) picker.setColor(initial_value, false)
   // Add a better remove function
   picker.remove = function () {
-    inp.remove()
+    div.remove()
     this.destroy()
   }
   return picker
@@ -149,12 +155,12 @@ const edit_tool = new Tool({
         else this.hov_hit.item.remove()
       } else if (e.modifiers.control && e.key == "c") {
         navigator.clipboard.writeText(this.hov_hit.item.exportJSON())
-      } else if (e.modifiers.control && e.key == "v") {
-        paste_tool.start(this)
       } else if (e.modifiers.control && e.key == "x") {
         navigator.clipboard.writeText(this.hov_hit.item.exportJSON())
         this.hov_hit.item.remove()
       }
+    } else if (e.modifiers.control && e.key == "v") {
+      paste_tool.start(this)
     }
   }
 })
