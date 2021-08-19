@@ -50,39 +50,35 @@ function spawn_slider(name, initial_value, on_change) {
 
 const background_picker = spawn_picker("background color", "000", c => disp.style["background-color"] = c.hex)
 
-let history = []
-let futory = []
-function save() {
-  history.push(project.exportJSON())
-  if (history.length > 20) history.shift()
-  futory = []
-}
-function undo() {
-  if (history.length > 0) {
-    futory.push(project.exportJSON())
-    project.clear()
-    project.importJSON(history.pop())
-    project.activeLayer.selected = false
+const history = {
+  prev: [],
+  fut: [],
+  length: 20,
+  save: function () {
+    this.prev.push(project.exportJSON())
+    if (this.prev.length > this.length) this.prev.shift()
+    this.fut = []
+  },
+  load: function (dir) {
+    let [a1, a2] = ({undo: ["prev", "fut"], redo: ["fut", "prev"]})[dir]
+    if (this[a1].length > 0) {
+      this[a2].push(project.exportJSON())
+      project.clear()
+      project.importJSON(this[a1].pop())
+      project.activeLayer.selected = false
+    }
+  },
+  check_undo: function (ctrl, key) {
+    if (ctrl && key == "z") this.load("undo")
+    else if (ctrl && key == "y") this.load("redo")
   }
-}
-function redo() {
-  if (futory.length > 0) {
-    history.push(project.exportJSON())
-    project.clear()
-    project.importJSON(futory.pop())
-    project.activeLayer.selected = false
-  }
-}
-function check_undo(ctrl, key) {
-  if (ctrl && key == "z") undo()
-  else if (ctrl && key == "y") redo()
 }
 
 const main_tool = new Tool({
   onActivate: () => project.activeLayer.selected = false,
   onMouseDown: e => e.modifiers.shift ? text_tool.start(e.point) : draw_tool.start(e.point),
   onKeyUp: function (e) {
-    check_undo(e.modifiers.control, e.key)
+    history.check_undo(e.modifiers.control, e.key)
     if (e.key == "e") {
       edit_tool.activate()
       M.toast({ html: "<span>Switched to <strong>Edit</strong> mode</span>" })
@@ -97,7 +93,7 @@ const draw_tool = new Tool({
   def_fill: "#fff0",
   def_thicc: 1,
   start: function (point) {
-    save()
+    history.save()
     // Need two for the onMouseMove stuff
     this.path = new Path([point, point])
     // Add color controls
@@ -150,7 +146,7 @@ const edit_tool = new Tool({
   onMouseDown: function (e) {
     let hit = project.hitTest(e.point, this.hit_opts)
     if (hit) {
-      save()
+      history.save()
       this.target_path = hit.item
       if (hit.type == "stroke") {
         this.target_seg = this.target_path.insert(hit.location.index + 1, e.point)
@@ -175,7 +171,7 @@ const edit_tool = new Tool({
     this.target_seg = null
   },
   onKeyUp: function (e) {
-    check_undo(e.modifiers.control, e.key)
+    history.check_undo(e.modifiers.control, e.key)
     if (e.key == "e") {
       main_tool.activate()
       M.toast({ html: "<span>Switched back to <strong>Draw</strong> mode</span>" })
@@ -183,7 +179,7 @@ const edit_tool = new Tool({
       paste_tool.start(this)
     } else if (this.hov_hit) {
       if (e.key == "delete") {
-        save()
+        history.save()
         if (this.hov_hit.segment) this.hov_hit.segment.remove()
         else this.hov_hit.item.remove()
       } else if (e.modifiers.control && e.key == "c") {
@@ -198,7 +194,7 @@ const edit_tool = new Tool({
 
 const paste_tool = new Tool({
   start: function (prev_tool) {
-    save()
+    history.save()
     this.prev_tool = prev_tool
     this.activate()
     navigator.clipboard.readText()
@@ -220,7 +216,7 @@ const paste_tool = new Tool({
 
 const text_tool = new Tool({
   start: function (point) {
-    save()
+    history.save()
     this.text = new PointText(point)
     this.text.fillColor = "white"
     this.activate()
