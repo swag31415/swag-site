@@ -215,11 +215,19 @@ const paste_tool = new Tool({
 })
 
 const text_tool = new Tool({
+  def_fill: "#fff",
   start: function (point) {
     history.save()
     this.text = new PointText(point)
-    this.text.fillColor = "white"
+    this.fill_picker = spawn_picker("text color", this.def_fill, c => {
+      this.def_fill = c.hex
+      this.text.fillColor = c.hex
+    })
     this.activate()
+  },
+  onMouseDown: () => main_tool.activate(),
+  onDeactivate: function () {
+    this.fill_picker.remove()
   },
   onKeyDown: function (e) {
     if (e.key == "escape") main_tool.activate()
