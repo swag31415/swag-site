@@ -3,23 +3,20 @@ paper.install(window)
 paper.setup(disp)
 
 const dock = document.getElementById("dock")
-function spawn_picker(name, initial_value, on_change) {
-  // Create the input
+function spawn_input(name, attrs) {
   let inp = document.createElement("input")
-  inp.type = "text"
-  // Attach a random id
-  inp.id = (Math.random() + 1).toString(36).substring(7)
-  // Create a label
+  Object.assign(inp, {...attrs, id: (Math.random() + 1).toString(36).substring(7)})
   let label = document.createElement("label")
-  label.className = "active"
-  label.for = inp.id
-  label.innerText = name
-  // Wrap the input and label in a div
+  Object.assign(label, {className: "active", for: inp.id, innerText: name})
   let div = document.createElement("div")
   div.className = "input-field col s4 m2"
   div.append(inp, label)
-  // Attach the div
   dock.appendChild(div)
+  return [div, inp]
+}
+
+function spawn_picker(name, initial_value, on_change) {
+  let [div, inp] = spawn_input(name, {type: "text"})
   // Attach the picker
   let picker = new Picker(div)
   inp.addEventListener("focus", () => picker.show())
@@ -29,6 +26,7 @@ function spawn_picker(name, initial_value, on_change) {
     // Push the event along
     if (on_change) on_change(col)
   }
+  // Handle initial value
   if (initial_value) picker.setColor(initial_value, false)
   // Add a better remove function
   picker.remove = function () {
@@ -36,6 +34,20 @@ function spawn_picker(name, initial_value, on_change) {
     this.destroy()
   }
   return picker
+}
+
+function spawn_slider(name, initial_value, on_change) {
+  let [div, inp] = spawn_input(name, {
+    type: "number",
+    min: 1,
+    max: 500,
+    step: 1,
+    value: initial_value
+  })
+  inp.addEventListener("change", e => on_change(e.target.value))
+  // Handle initial value
+  on_change(initial_value)
+  return div
 }
 
 const background_picker = spawn_picker("background color", "000", c => disp.style["background-color"] = c.hex)
@@ -70,6 +82,7 @@ const main_tool = new Tool({
 const draw_tool = new Tool({
   def_stroke: "#fff",
   def_fill: "#fff0",
+  def_thicc: 1,
   start: function (point) {
     save()
     // Need two for the onMouseMove stuff
@@ -83,11 +96,16 @@ const draw_tool = new Tool({
       draw_tool.def_fill = c.hex
       draw_tool.path.fillColor = c.hex
     })
+    this.thicc_slider = spawn_slider("thickness", this.def_thicc, n => {
+      draw_tool.def_thicc = n
+      draw_tool.path.strokeWidth = n
+    })
     this.activate()
   },
   onDeactivate: function () {
     this.stroke_picker.remove()
     this.fill_picker.remove()
+    this.thicc_slider.remove()
   },
   onKeyUp: function (e) {
     if (e.key == "escape") {
