@@ -138,6 +138,63 @@ const draw_tool = new Tool({
 })
 
 const edit_tool = new Tool({
+  select_tool: new Tool({
+    start: function (point) {
+      this.path = new Path({
+        segments: [point],
+        strokeColor: "#06e",
+        fillColor: "#06e3",
+        closed: true
+      })
+      this.activate()
+    },
+    onMouseDrag: function (e) {
+      this.path.add(e.point)
+    },
+    onMouseUp: function(e) {
+      // Calculate selected segments
+      let segs = project.activeLayer.children
+        .filter(path => path.id != this.path.id)
+        .flatMap(path => path.segments)
+        .filter(seg => this.path.contains(seg.point))
+      this.path.remove()
+      if (segs.length == 0) edit_tool.activate()
+      else edit_tool.bulk_tool.start(segs)
+    }
+  }),
+  bulk_tool: new Tool({
+    start: function (segments) {
+      this.segs = segments
+      project.activeLayer.selected = false
+      this.segs.forEach(seg => seg.point.selected = true)
+      this.pivot = this.segs.map(seg => seg.point).reduce((p1, p2) => p1.add(p2)).divide(this.segs.length)
+      this.activate()
+    },
+    onMouseDown: function (e) {
+      history.save()
+      let hit = project.hitTest(e.point, edit_tool.hit_opts)
+      if (hit && hit.type == "segment" && hit.segment.selected) this.mode = "move"
+      else this.mode = "spin"
+    },
+    onMouseDrag: function (e) {
+      switch (this.mode) {
+      case "move":
+        this.segs.forEach(seg => seg.point = seg.point.add(e.delta))
+        this.pivot = this.pivot.add(e.delta)
+        break;
+      case "spin":          
+        let ang = e.point.subtract(this.pivot).angle - e.lastPoint.subtract(this.pivot).angle
+        let trans = new Matrix().rotate(ang, this.pivot)
+        this.segs.forEach(seg => seg.transform(trans))
+      }
+    },
+    onKeyUp: function (e) {
+      if (e.key == "escape") {
+        project.activeLayer.selected = false
+        edit_tool.activate()
+      }
+    }
+  }),
   hit_opts: {
     segments: true,
     stroke: true,
@@ -154,7 +211,7 @@ const edit_tool = new Tool({
       } else {
         this.target_seg = hit.segment
       }
-    }
+    } else this.select_tool.start(e.point)
   },
   onMouseMove: function (e) {
     project.activeLayer.selected = false
