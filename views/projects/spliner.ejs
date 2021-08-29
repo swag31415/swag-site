@@ -1,6 +1,9 @@
 <% plugins = ["paperjs", "vanilla-picker"] %>
-<%- include("../inserts/head.ejs", {plugins:plugins}) %>
+<%- include("../inserts/head.ejs", {plugins:plugins, stylesheet:"spliner.css"}) %>
 <h1>Spliner</h1>
-<canvas id="disp" style="width: 100%" resize></canvas>
+<canvas id="disp" resize></canvas>
 <div id="dock" class="row"></div>
+<div id="frames" class="row">
+  <button id="frame-btn" class="dotted tile col s3">Add Frame</button>
+</div>
 <%- include("../inserts/foot.ejs", {plugins:plugins, scriptfile:"spliner.js"}) %>

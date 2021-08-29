@@ -44,6 +44,10 @@
     <link rel="stylesheet" href="css/masonry.css">
   <% }} %>
 
+  <% if (typeof stylesheet != "undefined" && stylesheet) { %>
+    <link rel="stylesheet" href="css/<%- stylesheet %>">
+  <% } %>
+
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2XDTVJQR83"></script>
   <script>

@@ -1,0 +1,23 @@
+#disp {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.tile {
+  aspect-ratio: 1 / 1;
+  /* width: 24%; */
+}
+
+button.dotted {
+  background-color: transparent;
+  border-style: dashed;
+}
+
+button.dotted:hover {
+  cursor: pointer;
+  box-shadow: 0 0 5px;
+}
+
+button.dotted:active {
+  background-color: #0882;
+}

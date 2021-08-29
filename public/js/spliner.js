@@ -50,6 +50,14 @@ function spawn_slider(name, initial_value, on_change) {
 
 const background_picker = spawn_picker("background color", "000", c => disp.style["background-color"] = c.hex)
 
+document.getElementById("frame-btn").addEventListener("click", e => {
+  img = document.createElement("img")
+  img.src = disp.toDataURL()
+  img.className = "tile z-depth-1 col s3"
+  img.dataset.state = JSON.stringify(project.exportJSON())
+  document.getElementById("frames").prepend(img)
+})
+
 const history = {
   prev: [],
   fut: [],
