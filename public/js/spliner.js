@@ -2,6 +2,13 @@ const disp = document.getElementById("disp")
 paper.install(window)
 paper.setup(disp)
 
+const utf8_decoder = new TextDecoder()
+function rand_string(len) {
+  let rand = new Uint8Array(len)
+  window.crypto.getRandomValues(rand)
+  return rand.reduce((s, v) => s + String.fromCharCode(97 + v%26), "")
+}
+
 const dock = document.getElementById("dock")
 function spawn_input(name, attrs) {
   let inp = document.createElement("input")
@@ -51,11 +58,33 @@ function spawn_slider(name, initial_value, on_change) {
 const background_picker = spawn_picker("background color", "000", c => disp.style["background-color"] = c.hex)
 
 document.getElementById("frame-btn").addEventListener("click", e => {
+  let new_frame = project.activeLayer.clone()
+  project.activeLayer.visible = false
+  project.addLayer(new_frame)
+  new_frame.activate()
+
   img = document.createElement("img")
   img.src = disp.toDataURL()
   img.className = "tile z-depth-1 col s3"
-  img.dataset.state = JSON.stringify(project.exportJSON())
   document.getElementById("frames").prepend(img)
+})
+document.getElementById("animate").addEventListener("click", e => {
+  let [l1, l2] = project.layers
+  let pairs = []
+  l1.children.forEach(c1 => l2.children.forEach(c2 => {
+    if (c1.data.id == c2.data.id) {
+      if (c1.segments.length > c2.segments.length) 
+      pairs.push([c1, c2])
+    }
+  }))
+  project.activeLayer.visible = false
+  l1.activate()
+  l1.visible = true
+  l1.tween(5000).onUpdate = e => {
+    pairs.forEach(([p1, p2]) => {
+      p1.interpolate(p1.clone({insert: false}), p2, e.factor)
+    })
+  }
 })
 
 const history = {
@@ -117,6 +146,7 @@ const draw_tool = new Tool({
       draw_tool.def_thicc = n
       draw_tool.path.strokeWidth = n
     })
+    this.path.data.id = rand_string(30)
     this.activate()
   },
   onDeactivate: function () {
