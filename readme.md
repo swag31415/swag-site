@@ -1,7 +1,7 @@
 # swag_site
-A place for me to put a lot of my (hopefully) cool stuff
+A place where i used to put a lot of my (hopefully) cool stuff
 
-See it [here](https://swag-site.herokuapp.com/)
+It's since all been moved to [Portfolio](https://swag31415.github.io/Portfolio/)
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
